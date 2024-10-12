@@ -7,40 +7,41 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="container">
-        <h1>Third Year Subjects</h1>
-        <div class="subject" id="subject1">
-            <h2>Indian Constitution and Media Law</h2>
-            <input type="password" id="password1" placeholder="Enter password">
-            <button onclick="checkPassword('subject1', 'indiconsml', 'http://indianconstitutionandmedialaw.blogspot.com')">Login</button>
-        </div>
-        <div class="subject" id="subject2">
-            <h2>Advertising</h2>
-            <input type="password" id="password2" placeholder="Enter password">
-            <button onclick="checkPassword('subject2', 'advert', 'http://advertisingmasscomm.blogspot.com')">Login</button>
-        </div>
-        <div class="subject" id="subject3">
-            <h2>Writing of Mass Media</h2>
-            <input type="password" id="password3" placeholder="Enter password">
-            <button onclick="checkPassword('subject3', 'wriofmasmed', 'http://writingofmassmedia.blogspot.com')">Login</button>
-        </div>
-        <div class="subject" id="subject4">
-            <h2>Mass Media and Society</h2>
-            <input type="password" id="password4" placeholder="Enter password">
-            <button onclick="checkPassword('subject4', 'masmedsoc', 'http://massmediaandsocietymasscomm.blogspot.com')">Login</button>
-        </div>
-        <div class="subject" id="subject5">
-            <h2>Sports Journalism</h2>
-            <input type="password" id="password5" placeholder="Enter password">
-            <button onclick="checkPassword('subject5', 'spojou', 'http://sportsjournalismmasscomm.blogspot.com')">Login</button>
-        </div>
-        <div class="subject" id="subject6">
-            <h2>Development Communication</h2>
-            <input type="password" id="password6" placeholder="Enter password">
-            <button onclick="checkPassword('subject6', 'devecomm', 'http://developmentcommunicationmasscomm.blogspot.com')">Login</button>
-        </div>
+    <div id="login-container" class="container">  <!-- Ensure correct ID -->
+        <h1>Third Year Subjects Access</h1>
+        <h2>Paid Access Required</h2>
+        <p>Contact Uzair Sir: <a href="https://wa.link/4jrun4" target="_blank">https://wa.link/4jrun4</a></p>
+        <p>Login with your registered email to access the subjects.</p>
+
+        <input type="email" id="email" placeholder="Enter your email" />
+        <button class="glow-button" onclick="checkEmail()">Login</button>
+
         <div id="message"></div>
+
+        <div id="subject-buttons" style="display:none;">
+            <div class="subject">
+                <button class="glow-button" onclick="embedBlogger('https://indianconstitutionandmedialaw.blogspot.com')">Indian Constitution and Media Law</button>
+            </div>
+            <div class="subject">
+                <button class="glow-button" onclick="embedBlogger('https://advertisingmasscomm.blogspot.com')">Advertising</button>
+            </div>
+            <div class="subject">
+                <button class="glow-button" onclick="embedBlogger('https://writingofmassmedia.blogspot.com')">Writing of Mass Media</button>
+            </div>
+            <div class="subject">
+                <button class="glow-button" onclick="embedBlogger('https://massmediaandsocietymasscomm.blogspot.com')">Mass Media and Society</button>
+            </div>
+            <div class="subject">
+                <button class="glow-button" onclick="embedBlogger('https://sportsjournalismmasscomm.blogspot.com')">Sports Journalism</button>
+            </div>
+            <div class="subject">
+                <button class="glow-button" onclick="embedBlogger('https://developmentcommunicationmasscomm.blogspot.com')">Development Communication</button>
+            </div>
+        </div>
     </div>
+
+    <iframe id="blogger-frame" style="display:none;" frameborder="0"></iframe>
+
     <script src="script.js"></script>
 </body>
 </html>
