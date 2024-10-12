@@ -1,8 +1,8 @@
 /* General Styling */
 body {
     font-family: 'Arial', sans-serif;
-    background: linear-gradient(135deg, #1f4037, #99f2c8);
-    color: #fff;
+    background-color: #ffffff; /* White background */
+    color: #333; /* Dark text for readability */
     text-align: center;
     padding: 20px;
     margin: 0;
@@ -13,14 +13,16 @@ body {
     max-width: 600px;
     margin: 50px auto;
     padding: 30px;
-    background-color: rgba(0, 0, 0, 0.7);
-    border-radius: 15px;
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+    background-color: rgba(255, 0, 0, 0.1); /* Hot red box */
+    border-radius: 10px; /* Slight rounding for a sleek look */
+    border: 2px solid #ff0000; /* Red border */
+    box-shadow: 0 0 15px rgba(255, 0, 0, 0.4); /* Glowing red shadow */
 }
 
 /* Headings */
 h1, h2 {
     margin-bottom: 15px;
+    color: #ff0000; /* Red headings */
 }
 
 /* Inputs */
@@ -29,28 +31,30 @@ input[type="email"] {
     width: 80%;
     margin-top: 10px;
     border-radius: 5px;
-    border: none;
-    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.3);
+    border: 1px solid #ff0000; /* Red border around input box */
+    box-shadow: inset 0 0 5px rgba(255, 0, 0, 0.5); /* Subtle red shadow inside */
+    font-size: 16px;
+    color: #333;
 }
 
 /* Glowing Buttons */
 .glow-button {
-    background: #1f4037;
+    background: #ff0000; /* Red background for the button */
     border: none;
     padding: 15px 30px;
     margin: 10px 0;
-    border-radius: 30px;
+    border-radius: 5px; /* Rectangular shape with slight rounding */
     cursor: pointer;
     font-size: 16px;
     font-weight: bold;
-    color: #fff;
+    color: #fff; /* White text for contrast */
     transition: 0.3s;
-    box-shadow: 0 0 10px #99f2c8, 0 0 40px #99f2c8;
+    box-shadow: 0 0 10px rgba(255, 0, 0, 0.5), 0 0 40px rgba(255, 0, 0, 0.3); /* Red glowing effect */
 }
 
 .glow-button:hover {
-    background: #0f2925;
-    box-shadow: 0 0 20px #99f2c8, 0 0 60px #99f2c8;
+    background: #cc0000; /* Darker red on hover */
+    box-shadow: 0 0 20px rgba(255, 0, 0, 0.7), 0 0 60px rgba(255, 0, 0, 0.5); /* Stronger glow on hover */
 }
 
 /* Subjects */
@@ -60,6 +64,22 @@ input[type="email"] {
 
 /* Responsive iframe */
 iframe {
-    border-radius: 15px;
+    border-radius: 10px;
     margin-top: 20px;
+    border: 2px solid #ff0000; /* Red border around iframe */
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+    .container {
+        padding: 20px;
+    }
+
+    input[type="email"] {
+        width: 90%; /* Make input wider on small screens */
+    }
+
+    .glow-button {
+        padding: 12px 20px; /* Adjust button size for mobile */
+    }
 }
