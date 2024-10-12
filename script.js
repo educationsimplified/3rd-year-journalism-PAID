@@ -15,6 +15,7 @@ function checkEmail() {
         message.textContent = "Login successful!";
         document.getElementById('subject-buttons').style.display = "block"; // Show subject buttons
         localStorage.setItem('email', email); // Store the email in localStorage
+        localStorage.setItem('isLoggedIn', 'true'); // Mark the user as logged in
     } else {
         message.textContent = "Email not recognized. Please contact Uzair Sir.";
     }
@@ -23,41 +24,48 @@ function checkEmail() {
 function embedBlogger(url) {
     const frame = document.getElementById('blogger-frame');
 
-    // Hide login container to simulate redirection
+    // Hide the login container and show iframe
     document.getElementById('login-container').style.display = "none";
-
-    // Configure iframe to appear full screen
     frame.src = url;
     frame.style.display = "block";
-    frame.style.position = "fixed";
-    frame.style.top = "0";
-    frame.style.left = "0";
-    frame.style.width = "100vw";
-    frame.style.height = "100vh";
-    frame.style.border = "none";
-    frame.style.zIndex = "9999";
 
-    // Handle iframe loading errors
-    frame.onerror = function () {
-        alert("Unable to load the page. Please try opening it directly.");
-        window.open(url, "_blank"); // Open in a new tab if embedding fails
-    };
+    // Store the current URL in sessionStorage to maintain it between refreshes
+    sessionStorage.setItem('currentIframeURL', url);
 
-    localStorage.setItem('bloggerURL', url); // Store the Blogger URL in localStorage
+    // Push a new history state to allow going back
+    window.history.pushState({ iframeURL: url }, '', url);
 }
 
-// Restore session if the user has already logged in
-window.onload = function() {
+// Restore session and handle back button navigation
+window.onload = function () {
     const savedEmail = localStorage.getItem('email');
-    const savedBloggerURL = localStorage.getItem('bloggerURL');
+    const savedIframeURL = sessionStorage.getItem('currentIframeURL');
 
+    // Check if user is already logged in
     if (savedEmail) {
         document.getElementById('email').value = savedEmail;
         document.getElementById('message').textContent = "Welcome back! You are already logged in.";
         document.getElementById('subject-buttons').style.display = "block";
     }
 
-    if (savedBloggerURL) {
-        embedBlogger(savedBloggerURL);
+    // Restore the iframe URL if it was previously loaded
+    if (savedIframeURL) {
+        embedBlogger(savedIframeURL);
     }
+
+    // Clear localStorage for a new session (only when opening a new tab or refreshing fully)
+    window.addEventListener('beforeunload', function () {
+        sessionStorage.removeItem('currentIframeURL'); // Clear iframe URL on page unload
+    });
+
+    // Handle the back button by restoring the subject list
+    window.onpopstate = function (event) {
+        if (event.state && event.state.iframeURL) {
+            embedBlogger(event.state.iframeURL); // Restore the iframe when navigating back
+        } else {
+            document.getElementById('blogger-frame').style.display = "none"; // Hide iframe
+            document.getElementById('subject-buttons').style.display = "block"; // Show subjects
+            document.getElementById('login-container').style.display = "block"; // Show the login
+        }
+    };
 };
