@@ -14,6 +14,7 @@ function checkEmail() {
     if (allowedEmails.includes(email)) {
         message.textContent = "Login successful!";
         document.getElementById('subject-buttons').style.display = "block"; // Show subject buttons
+        localStorage.setItem('email', email); // Store the email in localStorage
     } else {
         message.textContent = "Email not recognized. Please contact Uzair Sir.";
     }
@@ -41,4 +42,22 @@ function embedBlogger(url) {
         alert("Unable to load the page. Please try opening it directly.");
         window.open(url, "_blank"); // Open in a new tab if embedding fails
     };
+
+    localStorage.setItem('bloggerURL', url); // Store the Blogger URL in localStorage
 }
+
+// Restore session if the user has already logged in
+window.onload = function() {
+    const savedEmail = localStorage.getItem('email');
+    const savedBloggerURL = localStorage.getItem('bloggerURL');
+
+    if (savedEmail) {
+        document.getElementById('email').value = savedEmail;
+        document.getElementById('message').textContent = "Welcome back! You are already logged in.";
+        document.getElementById('subject-buttons').style.display = "block";
+    }
+
+    if (savedBloggerURL) {
+        embedBlogger(savedBloggerURL);
+    }
+};
