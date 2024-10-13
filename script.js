@@ -1,5 +1,6 @@
+// Function to check email and handle login
 function checkEmail() {
-    const email = document.getElementById('email').value;
+    const email = document.getElementById('email').value.trim();
     const message = document.getElementById('message');
     const allowedEmails = ["uzairatwork02@gmail.com", "kahkashazabreen@gmail.com"];
     const gmailFormat = /^[a-zA-Z0-9._%+-]+@gmail\.com$/;
@@ -7,65 +8,83 @@ function checkEmail() {
     // Validate email format
     if (!gmailFormat.test(email)) {
         message.textContent = "Please enter a valid Gmail address.";
+        message.style.color = "red";
         return;
     }
 
     // Check if email is allowed
     if (allowedEmails.includes(email)) {
         message.textContent = "Login successful!";
+        message.style.color = "green";
         document.getElementById('subject-buttons').style.display = "block"; // Show subject buttons
-        localStorage.setItem('email', email); // Store the email in localStorage
-        localStorage.setItem('isLoggedIn', 'true'); // Mark the user as logged in
+        sessionStorage.setItem('isLoggedIn', 'true'); // Mark the user as logged in
     } else {
         message.textContent = "Email not recognized. Please contact Uzair Sir.";
+        message.style.color = "red";
     }
 }
 
+// Function to embed the blogger iframe in full-screen
 function embedBlogger(url) {
-    const frame = document.getElementById('blogger-frame');
-
-    // Hide the login container and show iframe
+    // Hide the login and buttons container
     document.getElementById('login-container').style.display = "none";
-    frame.src = url;
-    frame.style.display = "block";
+    document.getElementById('subject-buttons').style.display = "none";
 
-    // Store the current URL in sessionStorage to maintain it between refreshes
+    // Show the iframe and set the URL
+    const frame = document.getElementById('blogger-frame');
+    frame.src = url;
+    frame.style.display = "block"; // Ensure iframe is visible
+    frame.style.width = "100%";    // Full width
+    frame.style.height = "100vh";  // Full height (viewport height)
+
+    // Store the URL for session persistence
     sessionStorage.setItem('currentIframeURL', url);
 
-    // Push a new history state to allow going back
+    // Push a new history state to allow back navigation
     window.history.pushState({ iframeURL: url }, '', url);
 }
 
-// Restore session and handle back button navigation
+// Function to handle the back button
+function goBack() {
+    // Show the login and subject buttons again
+    document.getElementById('login-container').style.display = "block";
+    document.getElementById('subject-buttons').style.display = "block";
+
+    // Hide the iframe
+    document.getElementById('blogger-frame').style.display = "none";
+}
+
+// Handle page load and session restoration
 window.onload = function () {
-    const savedEmail = localStorage.getItem('email');
+    const isLoggedIn = sessionStorage.getItem('isLoggedIn') === 'true';
     const savedIframeURL = sessionStorage.getItem('currentIframeURL');
 
-    // Check if user is already logged in
-    if (savedEmail) {
-        document.getElementById('email').value = savedEmail;
-        document.getElementById('message').textContent = "Welcome back! You are already logged in.";
+    if (isLoggedIn) {
         document.getElementById('subject-buttons').style.display = "block";
     }
 
-    // Restore the iframe URL if it was previously loaded
+    // Ensure buttons are hidden if not logged in
+    if (!isLoggedIn) {
+        document.getElementById('subject-buttons').style.display = "none";
+    }
+
+    // Restore the iframe if it was previously loaded
     if (savedIframeURL) {
         embedBlogger(savedIframeURL);
     }
 
-    // Clear localStorage for a new session (only when opening a new tab or refreshing fully)
-    window.addEventListener('beforeunload', function () {
-        sessionStorage.removeItem('currentIframeURL'); // Clear iframe URL on page unload
-    });
-
-    // Handle the back button by restoring the subject list
+    // Handle the back button navigation
     window.onpopstate = function (event) {
         if (event.state && event.state.iframeURL) {
-            embedBlogger(event.state.iframeURL); // Restore the iframe when navigating back
+            embedBlogger(event.state.iframeURL);
         } else {
-            document.getElementById('blogger-frame').style.display = "none"; // Hide iframe
-            document.getElementById('subject-buttons').style.display = "block"; // Show subjects
-            document.getElementById('login-container').style.display = "block"; // Show the login
+            goBack(); // Return to subject buttons if no URL is in history state
         }
     };
 };
+
+// Ensure session is cleared on full reload
+window.addEventListener('beforeunload', function () {
+    sessionStorage.removeItem('isLoggedIn');
+    sessionStorage.removeItem('currentIframeURL');
+});
