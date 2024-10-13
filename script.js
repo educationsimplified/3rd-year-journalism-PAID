@@ -34,8 +34,13 @@ function embedBlogger(url) {
     const frame = document.getElementById('blogger-frame');
     frame.src = url;
     frame.style.display = "block"; // Ensure iframe is visible
-    frame.style.width = "100%";    // Full width
-    frame.style.height = "100vh";  // Full height (viewport height)
+    frame.style.position = "fixed";  // Make it fixed to the viewport
+    frame.style.top = "0";           // Align to top
+    frame.style.left = "0";          // Align to left
+    frame.style.width = "100vw";     // Full width of viewport
+    frame.style.height = "100vh";    // Full height of viewport
+    frame.style.border = "none";     // Remove any borders to make it seamless
+    frame.style.zIndex = "9999";     // Make sure it stays on top of everything
 
     // Store the URL for session persistence
     sessionStorage.setItem('currentIframeURL', url);
