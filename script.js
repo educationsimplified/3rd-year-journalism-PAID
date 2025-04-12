@@ -2,7 +2,7 @@
 function checkEmail() {
     const email = document.getElementById('email').value.trim();
     const message = document.getElementById('message');
-    const allowedEmails = ["uzairatwork02@gmail.com", "kahkashazabreen@gmail.com"];
+    const allowedEmails = ["uzairatwork02@gmail.com", "kahkashazabreen@gmail.com", "m.malik2106@gmail.com"];
     const gmailFormat = /^[a-zA-Z0-9._%+-]+@gmail\.com$/;
 
     // Validate email format
