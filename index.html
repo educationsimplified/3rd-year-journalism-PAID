@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Uzair Ahmed Notes Access</title>
+    <!-- Tailwind CSS CDN for modern styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Font 'Inter' for a sleek look -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 text-gray-800 p-6 md:p-12 min-h-screen flex flex-col justify-between">
+
+    <!-- Home Button -->
+    <a href="index.html" class="inline-flex items-center space-x-2 bg-gray-200 text-gray-600 py-2 px-4 rounded-full border border-gray-300 hover:bg-gray-300 transition-colors duration-300 self-start mb-6">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+            <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" />
+        </svg>
+        <span>Home</span>
+    </a>
+
+    <!-- Main Content Container -->
+    <div class="bg-white rounded-2xl p-6 md:p-10 max-w-2xl mx-auto shadow-2xl flex-grow flex flex-col items-center text-center justify-center">
+        
+        <!-- Language Selector -->
+        <div class="flex items-center space-x-2 mb-6">
+            <span class="text-sm font-medium text-gray-700">Language:</span>
+            <select id="language-selector" onchange="translatePage()" class="bg-gray-200 text-gray-800 rounded-md py-1 px-2 border border-gray-300 focus:outline-none focus:ring focus:border-blue-400">
+                <option value="en">English</option>
+                <option value="hi">Hindi</option>
+            </select>
+        </div>
+
+        <h1 id="main-heading" class="text-3xl md:text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-teal-500 to-blue-600 mb-4">
+            Third Year & Second Year Notes Access
+        </h1>
+        <h2 id="paid-info" class="text-xl md:text-2xl font-semibold text-gray-700 mb-2">Only Paid Users can access</h2>
+        <h2 id="cost-info" class="text-xl md:text-2xl font-semibold text-gray-700 mb-6">Cost Only 150 Rs</h2>
+
+        <p id="ebook-content-info" class="text-sm text-gray-500 mb-6 italic">
+            Ebook content will be available in both English and Hindi.
+        </p>
+
+        <p class="text-gray-600 text-lg mb-6">
+            📚 <strong class="text-gray-800" id="buy-notes-text">Click on the Link to buy Notes:</strong>
+            <a id="buy-notes-link" href="https://docs.google.com/forms/d/e/1FAIpQLScDTrc_Sq-xLlZkMjKOMhkf4x9BmEbK3Ajs5yfGCtx-e_Eltg/viewform?usp=header" target="_blank" class="text-blue-600 hover:underline font-bold transition-colors duration-300">CLICK HERE TO BUY</a>
+        </p>
+        
+        <p class="text-gray-600 text-lg mb-4" id="view-notes-text">
+            📚 <strong class="text-gray-800">If you have bought notes click to view 2nd year or 3rd year notes:</strong>
+        </p>
+
+        <!-- Paid Access Buttons -->
+        <div class="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4 mb-8">
+            <a href="2ndyear.html" class="bg-emerald-500 hover:bg-emerald-600 text-white font-bold py-3 px-8 rounded-full shadow-lg transition-colors duration-300 transform hover:scale-105">
+                <span id="button-2nd-year">2nd Year Paid</span>
+            </a>
+            <a href="3rdyear.html" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-full shadow-lg transition-colors duration-300 transform hover:scale-105">
+                <span id="button-3rd-year">3rd Year Paid</span>
+            </a>
+        </div>
+
+        <p class="text-gray-600 text-lg mb-4">
+            📚 <strong class="text-gray-800" id="download-qr-text">If You Have Bought The Notes Click to Download the book Mark Q.R. Code:</strong>
+            <a id="download-qr-link" href="qr.html" target="_blank" class="text-blue-600 hover:underline font-bold transition-colors duration-300">CLICK HERE TO Download Your Q.R. BOOK MARK</a>
+        </p>
+        <p class="text-gray-600 text-lg">
+            📚 <strong class="text-gray-800" id="contact-text">If You Have Bought The Notes but There is a issue, on opening or verification issue click on link to contact via whatsapp:</strong>
+            <a id="contact-link" href="https://wa.link/gu6473" target="_blank" class="text-blue-600 hover:underline font-bold transition-colors duration-300">CLICK HERE TO Contact</a>
+        </p>
+    </div>
+
+    <!-- Footer -->
+    <footer id="footer-text" class="text-center text-gray-500 text-sm mt-8">
+        website by uzair b2b services
+    </footer>
+
+    <script>
+        const translations = {
+            en: {
+                mainHeading: "Third Year & Second Year Notes Access",
+                paidInfo: "Only Paid Users can access",
+                costInfo: "Cost Only 150 Rs",
+                ebookContentInfo: "Ebook content will be available in both English and Hindi.",
+                buyNotesText: "Click on the Link to buy Notes:",
+                viewNotesText: "If you have bought notes click to view 2nd year or 3rd year notes:",
+                buyNotesLink: "CLICK HERE TO BUY",
+                button2ndYear: "2nd Year Paid",
+                button3rdYear: "3rd Year Paid",
+                downloadQrText: "If You Have Bought The Notes Click to Download the book Mark Q.R. Code:",
+                downloadQrLink: "CLICK HERE TO Download Your Q.R. BOOK MARK",
+                contactText: "If You Have Bought The Notes but There is a issue, on opening or verification issue click on link to contact via whatsapp:",
+                contactLink: "CLICK HERE TO Contact",
+                footerText: "website by uzair b2b services"
+            },
+            hi: {
+                mainHeading: "तृतीय वर्ष और द्वितीय वर्ष के नोट्स तक पहुंच",
+                paidInfo: "केवल भुगतान किए गए उपयोगकर्ता ही पहुंच सकते हैं",
+                costInfo: "लागत केवल 150 रुपये",
+                ebookContentInfo: "ईबुक सामग्री अंग्रेजी और हिंदी दोनों में उपलब्ध होगी।",
+                buyNotesText: "नोट्स खरीदने के लिए लिंक पर क्लिक करें:",
+                viewNotesText: "यदि आपने नोट्स खरीद लिए हैं, तो द्वितीय वर्ष या तृतीय वर्ष के नोट्स देखने के लिए क्लिक करें:",
+                buyNotesLink: "खरीदने के लिए यहां क्लिक करें",
+                button2ndYear: "द्वितीय वर्ष सशुल्क",
+                button3rdYear: "तृतीय वर्ष सशुल्क",
+                downloadQrText: "यदि आपने नोट्स खरीद लिए हैं, तो बुक मार्क क्यूआर कोड डाउनलोड करने के लिए क्लिक करें:",
+                downloadQrLink: "अपनी क्यूआर बुक मार्क डाउनलोड करने के लिए यहां क्लिक करें",
+                contactText: "यदि आपने नोट्स खरीदे हैं, लेकिन खोलने या सत्यापन में कोई समस्या है, तो व्हाट्सएप के माध्यम से संपर्क करने के लिए लिंक पर क्लिक करें:",
+                contactLink: "संपर्क करने के लिए यहां क्लिक करें",
+                footerText: "वेबसाइट बाय उजैर बी2बी सर्विसेज"
+            }
+        };
+
+        function translatePage() {
+            const lang = document.getElementById('language-selector').value;
+            const t = translations[lang];
+
+            if (t) {
+                document.getElementById('main-heading').innerText = t.mainHeading;
+                document.getElementById('paid-info').innerText = t.paidInfo;
+                document.getElementById('cost-info').innerText = t.costInfo;
+                document.getElementById('ebook-content-info').innerText = t.ebookContentInfo;
+                document.getElementById('buy-notes-text').innerText = t.buyNotesText;
+                document.getElementById('view-notes-text').innerText = t.viewNotesText;
+                document.getElementById('buy-notes-link').innerText = t.buyNotesLink;
+                document.getElementById('button-2nd-year').innerText = t.button2ndYear;
+                document.getElementById('button-3rd-year').innerText = t.button3rdYear;
+                document.getElementById('download-qr-text').innerText = t.downloadQrText;
+                document.getElementById('download-qr-link').innerText = t.downloadQrLink;
+                document.getElementById('contact-text').innerText = t.contactText;
+                document.getElementById('contact-link').innerText = t.contactLink;
+                document.getElementById('footer-text').innerText = t.footerText;
+            }
+        }
+
+        // Translate the page on initial load
+        document.addEventListener('DOMContentLoaded', translatePage);
+    </script>
+</body>
+</html>
