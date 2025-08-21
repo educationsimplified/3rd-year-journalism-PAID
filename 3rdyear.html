@@ -19,44 +19,43 @@
         
         <p><b>Login with your registered email to access the subjects.</b></p>
 
-        <input type="email" id="email" placeholder="Enter your email" />
-        <button class="glow-button" onclick="checkEmail()">Login</button>
+<input type="text" id="studentName" placeholder="Enter your Name" />
+<input type="text" id="studentEmailPhone" placeholder="Enter your Email or Phone number" />
+<button class="glow-button" onclick="checkEmail()">Login</button>
 
-        <div id="message"></div>
+<div id="message"></div>
 
-  
-        <div id="subject-buttons" style="display:none;">
-
-<div class="subject">
-<h1>THIRD YEAR NOTES (3RD YEAR)</h1>
+<div id="subject-buttons" style="display:none;">
+  <div class="subject">
+    <h1>THIRD YEAR NOTES (3RD YEAR)</h1>
+  </div>
+  <div class="subject">
+    <button class="glow-button" onclick="embedBlogger('https://indianconstitutionandmedialaw.blogspot.com')">Indian Constitution and Media Law</button>
+  </div>
+  <div class="subject">
+    <button class="glow-button" onclick="embedBlogger('https://advertisingmasscomm.blogspot.com')">Advertising</button>
+  </div>
+  <div class="subject">
+    <button class="glow-button" onclick="embedBlogger('https://writingofmassmedia.blogspot.com')">Writing of Mass Media</button>
+  </div>
+  <div class="subject">
+    <button class="glow-button" onclick="embedBlogger('https://massmediaandsocietymasscomm.blogspot.com')">Mass Media and Society</button>
+  </div>
+  <div class="subject">
+    <button class="glow-button" onclick="embedBlogger('https://sportsjournalismmasscomm.blogspot.com')">Sports Journalism</button>
+  </div>
+  <div class="subject">
+    <button class="glow-button" onclick="embedBlogger('https://developmentcommunicationmasscomm.blogspot.com')">Development Communication</button>
+  </div>
 </div>
-            
-            <div class="subject">
-                <button class="glow-button" onclick="embedBlogger('https://indianconstitutionandmedialaw.blogspot.com')">Indian Constitution and Media Law</button>
-            </div>
-            <div class="subject">
-                <button class="glow-button" onclick="embedBlogger('https://advertisingmasscomm.blogspot.com')">Advertising</button>
-            </div>
-            <div class="subject">
-                <button class="glow-button" onclick="embedBlogger('https://writingofmassmedia.blogspot.com')">Writing of Mass Media</button>
-            </div>
-            <div class="subject">
-                <button class="glow-button" onclick="embedBlogger('https://massmediaandsocietymasscomm.blogspot.com')">Mass Media and Society</button>
-            </div>
-            <div class="subject">
-                <button class="glow-button" onclick="embedBlogger('https://sportsjournalismmasscomm.blogspot.com')">Sports Journalism</button>
-            </div>
-            <div class="subject">
-                <button class="glow-button" onclick="embedBlogger('https://developmentcommunicationmasscomm.blogspot.com')">Development Communication</button>
-            </div>
-        </div>
-    </div>
-
     <iframe id="blogger-frame" style="display:none;" frameborder="0"></iframe>
 
     <script src="script.js"></script>
+
+        
 </body>
 </html>
+
 
 
 
