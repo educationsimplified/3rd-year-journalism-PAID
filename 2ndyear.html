@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2rd Year Paid Notes Login</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom styles for the glow effect on buttons */
+        .glow-button {
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        .glow-button:before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background-image: radial-gradient(circle, #fff 10%, transparent 10%);
+            background-position: 50% 50%;
+            background-repeat: no-repeat;
+            opacity: 0;
+            transition: all 0.5s ease;
+        }
+        .glow-button:hover:before {
+            transform: scale(1.5);
+            opacity: 0.1;
+        }
+        /* Full-screen iframe */
+        #blogger-frame {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1000;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen p-4">
+
+    <div class="fixed top-4 left-4 z-50">
+        <a href="index.html" class="bg-gray-200 text-gray-800 font-semibold py-2 px-4 rounded-full shadow-lg hover:bg-gray-300 transition-colors">Home</a>
+    </div>
+
+    <div id="login-container" class="bg-white p-6 md:p-10 rounded-lg shadow-xl w-full max-w-md text-center">
+        <p class="mb-4">
+            <span class="text-xl">🔒</span> <strong><a href="policy.html" target="_blank" class="text-blue-600 hover:underline">Privacy Policy</a></strong>
+        </p>
+        <h1 class="text-2xl md:text-3xl font-bold text-gray-800 mb-2">Second Year Notes Access</h1>
+        <h2 class="text-md md:text-lg text-gray-600 mb-4">Only Paid Users can access</h2>
+        <p class="mb-6 text-sm md:text-base">
+            📚 <strong>If You Have Bought The Notes but There is an issue, on opening or verification, click on the link to contact via WhatsApp:</strong>
+            <a href="https://wa.link/gu6473" target="_blank" class="text-blue-600 hover:underline block md:inline mt-2 md:mt-0">CLICK HERE TO Contact</a>
+        </p>
+        <p class="mb-6 font-bold text-gray-700 text-sm md:text-base">Login with your registered email to access the subjects.</p>
+        <form id="login-form" class="flex flex-col gap-4">
+            <input type="email" id="email" placeholder="Enter your email" required class="p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm md:text-base">
+            <input type="password" id="password" placeholder="Enter your password" required class="p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm md:text-base">
+            <button type="submit" class="bg-blue-600 text-white font-semibold p-3 rounded-md hover:bg-blue-700 transition-colors text-sm md:text-base">Login</button>
+            <p id="error-message" class="text-red-500 text-sm mt-1 invisible">Invalid email or password.</p>
+        </form>
+    </div>
+
+    <div id="notes-container" class="hidden bg-white p-6 md:p-10 rounded-lg shadow-xl w-full max-w-4xl text-center">
+        <h2 class="text-2xl font-bold text-gray-800 mb-8">2nd Year Paid Notes</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+            <div class="bg-gray-50 p-4 rounded-lg shadow-sm">
+                <button class="glow-button bg-blue-600 text-white font-semibold p-4 rounded-md hover:bg-blue-700 transition-colors w-full" onclick="embedBlogger('https://indianconstitutionandmedialaw.blogspot.com')">Indian Constitution and Media Law</button>
+            </div>
+            <div class="bg-gray-50 p-4 rounded-lg shadow-sm">
+                <button class="glow-button bg-blue-600 text-white font-semibold p-4 rounded-md hover:bg-blue-700 transition-colors w-full" onclick="embedBlogger('https://advertisingmasscomm.blogspot.com')">Advertising</button>
+            </div>
+            <div class="bg-gray-50 p-4 rounded-lg shadow-sm">
+                <button class="glow-button bg-blue-600 text-white font-semibold p-4 rounded-md hover:bg-blue-700 transition-colors w-full" onclick="embedBlogger('https://writingofmassmedia.blogspot.com')">Writing of Mass Media</button>
+            </div>
+            <div class="bg-gray-50 p-4 rounded-lg shadow-sm">
+                <button class="glow-button bg-blue-600 text-white font-semibold p-4 rounded-md hover:bg-blue-700 transition-colors w-full" onclick="embedBlogger('https://massmediaandsocietymasscomm.blogspot.com')">Mass Media and Society</button>
+            </div>
+            <div class="bg-gray-50 p-4 rounded-lg shadow-sm">
+                <button class="glow-button bg-blue-600 text-white font-semibold p-4 rounded-md hover:bg-blue-700 transition-colors w-full" onclick="embedBlogger('https://sportsjournalismmasscomm.blogspot.com')">Sports Journalism</button>
+            </div>
+            <div class="bg-gray-50 p-4 rounded-lg shadow-sm">
+                <button class="glow-button bg-blue-600 text-white font-semibold p-4 rounded-md hover:bg-blue-700 transition-colors w-full" onclick="embedBlogger('https://developmentcommunicationmasscomm.blogspot.com')">Development Communication</button>
+            </div>
+        </div>
+    </div>
+
+    <iframe id="blogger-frame" frameborder="0" class="hidden"></iframe>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const loginForm = document.getElementById('login-form');
+            const emailInput = document.getElementById('email');
+            const passwordInput = document.getElementById('password');
+            const errorMessage = document.getElementById('error-message');
+            const loginContainer = document.getElementById('login-container');
+            const notesContainer = document.getElementById('notes-container');
+            const bloggerFrame = document.getElementById('blogger-frame');
+
+            // Hardcoded credentials for this demonstration
+            const CORRECT_EMAIL = 'user@example.com';
+            const CORRECT_PASSWORD = 'password123';
+
+            loginForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const email = emailInput.value.trim();
+                const password = passwordInput.value.trim();
+
+                if (email === CORRECT_EMAIL && password === CORRECT_PASSWORD) {
+                    loginContainer.classList.add('hidden');
+                    notesContainer.classList.remove('hidden');
+                } else {
+                    errorMessage.textContent = 'Invalid email or password.';
+                    errorMessage.classList.remove('invisible');
+                }
+            });
+
+            // Make the embedBlogger function globally accessible
+            window.embedBlogger = function(url) {
+                notesContainer.classList.add('hidden');
+                bloggerFrame.src = url;
+                bloggerFrame.classList.remove('hidden');
+            };
+        });
+    </script>
+</body>
+</html>
