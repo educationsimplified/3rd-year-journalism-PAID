@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Policy & Disclaimers</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.1);
+            }
+        }
+        .animated-text {
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        .voice-btn {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+        .stop-btn {
+            background-color: #f44336;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f9f9f9;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+            border-radius: 5px;
+        }
+        .dropdown-content button {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+            width: 100%;
+            text-align: left;
+            border: none;
+            background: none;
+            cursor: pointer;
+        }
+        .dropdown-content button:hover {
+            background-color: #f1f1f1;
+        }
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen p-4">
+
+    <div class="fixed top-4 left-4 z-50">
+        <a href="index.html" class="bg-gray-200 text-gray-800 font-semibold py-2 px-4 rounded-full shadow-lg hover:bg-gray-300 transition-colors">Home</a>
+    </div>
+
+    <div id="policy-container" class="bg-white p-6 md:p-10 rounded-lg shadow-xl w-full max-w-4xl text-center">
+        <h1 class="text-3xl md:text-4xl font-bold text-gray-800 mb-6">Policy & Disclaimer</h1>
+        
+        <div class="flex justify-center items-center space-x-4 mb-6">
+            <button id="english-btn" class="bg-blue-500 text-white font-semibold py-2 px-4 rounded-md hover:bg-blue-600 transition-colors">English</button>
+            <button id="hindi-btn" class="bg-blue-500 text-white font-semibold py-2 px-4 rounded-md hover:bg-blue-600 transition-colors">हिंदी</button>
+        </div>
+
+        <div id="english-content" class="policy-content">
+            <ul class="list-disc list-inside text-left space-y-4 mb-6">
+                <li>
+                    <strong class="text-xl">No Refunds:</strong> All sales of notes are final. Once purchased, no refunds will be issued under any circumstances.
+                </li>
+                <li>
+                    <strong class="text-xl">Not Official Notes:</strong> These notes are not officially authorized by MGKVPU, Varanasi. They are study material created and compiled by a student of MGKVP Journalism.
+                </li>
+                <li>
+                    <strong class="text-xl">Private Property:</strong> The website and the notes are the private property of **Uzair**. Any unethical sharing, distribution, or reproduction of these materials without explicit permission from Uzair is strictly prohibited and could lead to serious consequences.
+                </li>
+                <li>
+                    <strong class="text-xl">No Official Affiliation:</strong> This website has no official link or affiliation with MGKVPU, Varanasi. It is a personal effort by a student to provide affordable English and Hindi study material.
+                </li>
+                <li>
+                    <strong class="text-xl">Disclaimer of Liability:</strong> The notes have been thoroughly checked, but Uzair is not liable for any errors or inaccuracies. For any corrections or queries, please contact Uzair directly via WhatsApp.
+                </li>
+            </ul>
+            <p class="text-left mb-6">
+                <strong class="text-xl">Contact:</strong> For any assistance or to report a mistake, you can <a href="https://wa.me/919335723334" target="_blank" class="text-blue-600 hover:underline">WhatsApp me on 9335723334</a>.
+            </p>
+            <div class="flex justify-center space-x-4">
+                <button id="listen-english" class="voice-btn">Listen (English)</button>
+                <button id="stop-english" class="stop-btn hidden">Stop</button>
+            </div>
+        </div>
+
+        <div id="hindi-content" class="policy-content hidden">
+            <ul class="list-disc list-inside text-left space-y-4 mb-6">
+                <li>
+                    <strong class="text-xl">कोई वापसी नहीं (No Refunds):</strong> नोट्स की सभी बिक्री अंतिम हैं। एक बार खरीदे जाने पर, किसी भी परिस्थिति में कोई वापसी (refund) जारी नहीं की जाएगी।
+                </li>
+                <li>
+                    <strong class="text-xl">अनौपचारिक नोट्स (Not Official Notes):</strong> ये नोट्स MGKVPU, वाराणसी द्वारा आधिकारिक तौर पर अधिकृत नहीं हैं। ये MGKVP पत्रकारिता के एक छात्र द्वारा बनाए और संकलित किए गए अध्ययन सामग्री हैं।
+                </li>
+                <li>
+                    <strong class="text-xl">निजी संपत्ति (Private Property):</strong> यह वेबसाइट और नोट्स **उजैर** की निजी संपत्ति हैं। उजैर से स्पष्ट अनुमति के बिना इन सामग्रियों का कोई भी अनैतिक साझाकरण, वितरण या पुनरुत्पादन (reproduction) सख्ती से प्रतिबंधित है और इसके गंभीर परिणाम हो सकते हैं।
+                </li>
+                <li>
+                    <strong class="text-xl">कोई आधिकारिक संबद्धता नहीं (No Official Affiliation):</strong> इस वेबसाइट का MGKVPU, वाराणसी के साथ कोई आधिकारिक लिंक या संबद्धता नहीं है। यह एक छात्र द्वारा एक व्यक्तिगत प्रयास है ताकि किफायती अंग्रेजी और हिंदी अध्ययन सामग्री प्रदान की जा सके।
+                </li>
+                <li>
+                    <strong class="text-xl">देयता का अस्वीकरण (Disclaimer of Liability):</strong> नोट्स की पूरी तरह से जांच की गई है, लेकिन किसी भी त्रुटि या अशुद्धि के लिए उजैर जिम्मेदार नहीं है। किसी भी सुधार या प्रश्न के लिए, कृपया सीधे उजैर से व्हाट्सएप के माध्यम से संपर्क करें।
+                </li>
+            </ul>
+            <p class="text-left mb-6">
+                <strong class="text-xl">संपर्क (Contact):</strong> किसी भी सहायता या गलती की रिपोर्ट करने के लिए, आप इस नंबर पर <a href="https://wa.me/919335723334" target="_blank" class="text-blue-600 hover:underline">व्हाट्सएप कर सकते हैं: 9335723334</a>।
+            </p>
+            <div class="flex justify-center space-x-4">
+                <div class="dropdown">
+                    <button class="voice-btn">Listen (Hindi) ▼</button>
+                    <div id="voice-dropdown" class="dropdown-content">
+                        </div>
+                </div>
+                <button id="stop-hindi" class="stop-btn hidden">बंद करें</button>
+            </div>
+        </div>
+
+        <p class="mt-8 text-3xl md:text-5xl font-extrabold text-green-600 animated-text">
+            80+ People Already Bought It!
+        </p>
+    </div>
+
+    <script>
+        const englishBtn = document.getElementById('english-btn');
+        const hindiBtn = document.getElementById('hindi-btn');
+        const englishContent = document.getElementById('english-content');
+        const hindiContent = document.getElementById('hindi-content');
+        const listenEnglishBtn = document.getElementById('listen-english');
+        const stopEnglishBtn = document.getElementById('stop-english');
+        const stopHindiBtn = document.getElementById('stop-hindi');
+        const voiceDropdown = document.getElementById('voice-dropdown');
+
+        // Function to switch language
+        function switchLanguage(lang) {
+            if (lang === 'en') {
+                englishContent.classList.remove('hidden');
+                hindiContent.classList.add('hidden');
+            } else if (lang === 'hi') {
+                englishContent.classList.add('hidden');
+                hindiContent.classList.remove('hidden');
+            }
+        }
+
+        // Add click event listeners for language buttons
+        englishBtn.addEventListener('click', () => switchLanguage('en'));
+        hindiBtn.addEventListener('click', () => switchLanguage('hi'));
+
+        // Text-to-Speech functionality
+        let voices = [];
+        let hindiVoices = [];
+
+        function populateVoiceList() {
+            voices = speechSynthesis.getVoices();
+            hindiVoices = voices.filter(voice => voice.lang.startsWith('hi'));
+            
+            // Clear existing buttons
+            voiceDropdown.innerHTML = '';
+            
+            if (hindiVoices.length > 0) {
+                hindiVoices.forEach(voice => {
+                    const button = document.createElement('button');
+                    button.textContent = voice.name;
+                    button.dataset.voiceURI = voice.voiceURI;
+                    button.onclick = () => speakText(hindiContent.innerText, voice);
+                    voiceDropdown.appendChild(button);
+                });
+            } else {
+                const noVoiceMsg = document.createElement('button');
+                noVoiceMsg.textContent = "No Hindi voice found. Use 'hi-IN'.";
+                noVoiceMsg.onclick = () => speakText(hindiContent.innerText, 'hi-IN');
+                voiceDropdown.appendChild(noVoiceMsg);
+            }
+        }
+
+        function speakText(text, voiceOrLang) {
+            stopSpeaking();
+            if ('speechSynthesis' in window) {
+                const utterance = new SpeechSynthesisUtterance(text);
+                if (typeof voiceOrLang === 'string') {
+                    utterance.lang = voiceOrLang;
+                } else {
+                    utterance.voice = voiceOrLang;
+                }
+
+                utterance.onstart = () => {
+                    stopHindiBtn.classList.remove('hidden');
+                };
+                utterance.onend = () => {
+                    stopHindiBtn.classList.add('hidden');
+                };
+
+                window.speechSynthesis.speak(utterance);
+            } else {
+                alert("Text-to-speech not supported in this browser.");
+            }
+        }
+
+        function stopSpeaking() {
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel();
+            }
+        }
+
+        // Add event listeners for voice buttons
+        listenEnglishBtn.addEventListener('click', () => {
+            stopSpeaking();
+            const text = englishContent.innerText;
+            speakText(text, 'en-US');
+            listenEnglishBtn.classList.add('hidden');
+            stopEnglishBtn.classList.remove('hidden');
+        });
+
+        stopEnglishBtn.addEventListener('click', () => {
+            stopSpeaking();
+            listenEnglishBtn.classList.remove('hidden');
+            stopEnglishBtn.classList.add('hidden');
+        });
+
+        stopHindiBtn.addEventListener('click', () => {
+            stopSpeaking();
+            stopHindiBtn.classList.add('hidden');
+        });
+
+        // Populate voices when they are available
+        if ('speechSynthesis' in window) {
+            speechSynthesis.addEventListener('voiceschanged', populateVoiceList);
+            populateVoiceList(); // Call it once in case voices are already loaded
+        } else {
+            // Fallback for browsers without speech synthesis support
+            voiceDropdown.innerHTML = '<button onclick="alert(\'Text-to-speech not supported.\')">Text-to-speech not supported.</button>';
+        }
+
+        // Set default language
+        switchLanguage('en');
+    </script>
+
+</body>
+</html>
