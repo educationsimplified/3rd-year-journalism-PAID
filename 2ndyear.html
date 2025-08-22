@@ -92,40 +92,78 @@
     <iframe id="blogger-frame" frameborder="0" class="hidden"></iframe>
 
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const loginForm = document.getElementById('login-form');
-            const emailInput = document.getElementById('email');
-            const passwordInput = document.getElementById('password');
-            const errorMessage = document.getElementById('error-message');
-            const loginContainer = document.getElementById('login-container');
-            const notesContainer = document.getElementById('notes-container');
-            const bloggerFrame = document.getElementById('blogger-frame');
+    document.addEventListener('DOMContentLoaded', () => {
+        const loginForm = document.getElementById('login-form');
+        const emailInput = document.getElementById('email');
+        const passwordInput = document.getElementById('password');
+        const errorMessage = document.getElementById('error-message');
+        const loginContainer = document.getElementById('login-container');
+        const notesContainer = document.getElementById('notes-container');
+        const bloggerFrame = document.getElementById('blogger-frame');
 
-            // Hardcoded credentials for this demonstration
-            const CORRECT_EMAIL = 'user@example.com';
-            const CORRECT_PASSWORD = 'password123';
+        // ✅ Google Sheet CSV link
+        const SHEET_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSOVT-iw_jiz5AmAK_3g6fZiNR_MM3oEqlCgUEJAfGB46Hxi4tag8xke8HtD6G9RNFOoO2SX2O_FPna/pub?gid=1659857779&single=true&output=csv";
 
-            loginForm.addEventListener('submit', (e) => {
-                e.preventDefault();
-                const email = emailInput.value.trim();
-                const password = passwordInput.value.trim();
+        // ✅ Fetch and parse CSV
+        async function fetchCSV() {
+            const response = await fetch(SHEET_URL);
+            const data = await response.text();
+            const rows = data.split("\n").map(row => row.split(","));
+            const users = [];
 
-                if (email === CORRECT_EMAIL && password === CORRECT_PASSWORD) {
+            // Skip header row (index 0)
+            for (let i = 1; i < rows.length; i++) {
+                const [name, email, password] = rows[i];
+                if (email && password) {
+                    users.push({
+                        name: name.trim(),
+                        email: email.trim(),
+                        password: password.trim()
+                    });
+                }
+            }
+            return users;
+        }
+
+        // ✅ Login handler
+        loginForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const email = emailInput.value.trim();
+            const password = passwordInput.value.trim();
+
+            if (!email || !password) {
+                errorMessage.textContent = "❌ Please enter both email and password.";
+                errorMessage.classList.remove('invisible');
+                return;
+            }
+
+            try {
+                const users = await fetchCSV();
+                const user = users.find(u => u.email === email && u.password === password);
+
+                if (user) {
                     loginContainer.classList.add('hidden');
                     notesContainer.classList.remove('hidden');
+                    errorMessage.classList.add('invisible');
                 } else {
-                    errorMessage.textContent = 'Invalid email or password.';
+                    errorMessage.textContent = "❌ Invalid email or password.";
                     errorMessage.classList.remove('invisible');
                 }
-            });
-
-            // Make the embedBlogger function globally accessible
-            window.embedBlogger = function(url) {
-                notesContainer.classList.add('hidden');
-                bloggerFrame.src = url;
-                bloggerFrame.classList.remove('hidden');
-            };
+            } catch (err) {
+                console.error("Error loading CSV:", err);
+                errorMessage.textContent = "⚠️ Error verifying login. Try again later.";
+                errorMessage.classList.remove('invisible');
+            }
         });
-    </script>
+
+        // ✅ Make embedBlogger function globally accessible
+        window.embedBlogger = function(url) {
+            notesContainer.classList.add('hidden');
+            bloggerFrame.src = url;
+            bloggerFrame.classList.remove('hidden');
+        };
+    });
+</script>
+
 </body>
 </html>
