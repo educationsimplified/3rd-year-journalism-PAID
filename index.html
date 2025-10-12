@@ -3,122 +3,273 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Uzair Ahmed Notes Access</title>
-    <!-- Tailwind CSS CDN for modern styling -->
+    <title>Uzair Ahmed - Notes & Ebook Access</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Google Font 'Inter' for a sleek look -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         body {
             font-family: 'Inter', sans-serif;
         }
+
+        /* LIGHT MODE STYLES (Default) */
+        .gradient-text {
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            background-image: linear-gradient(to right, #059669, #0ea5e9); /* Emerald to Sky blue */
+        }
+        
+        /* DARK MODE STYLES (Applied when parent <html> has class="dark") */
+        .dark body {
+            background-color: #0f172a; /* Slate-900 */
+            color: #e2e8f0; /* Slate-200 */
+        }
+
+        .dark .main-card {
+            background-color: #1e293b; /* Slate-800 */
+            border-color: #334155; /* Slate-700 */
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7);
+        }
+
+        .dark .gradient-text {
+            background-image: linear-gradient(to right, #10b981, #38bdf8); /* Emerald to Sky blue (brighter for dark mode) */
+        }
+
+        /* Special dark mode class for the info box */
+        .dark .info-box {
+            background-color: #0f344e; /* Darker blue */
+            border-color: #075985; /* Stronger blue border */
+        }
+
+        .dark .text-gray-700 { color: #cbd5e1; /* Slate-300 */ }
+        .dark .text-gray-500 { color: #94a3b8; /* Slate-400 */ }
+        .dark .bg-gray-50 { background-color: #1f2937; /* Darker utility background */ }
+        .dark .border-gray-200 { border-color: #374151; }
+        .dark .hover\:bg-gray-100:hover { background-color: #2f3e4e; }
+        .dark .text-sky-600 { color: #38bdf8; } /* Cyan */
+        .dark .text-teal-600 { color: #10b981; } /* Emerald */
     </style>
 </head>
-<body class="bg-gray-100 text-gray-800 p-6 md:p-12 min-h-screen flex flex-col justify-between">
+<body class="bg-gray-50 text-gray-800 p-4 min-h-screen flex flex-col items-center transition-colors duration-500">
 
-    <!-- Home Button -->
-    <a href="https://sites.google.com/view/mgkvpmasscom/home-page" class="inline-flex items-center space-x-2 bg-gray-200 text-gray-600 py-2 px-4 rounded-full border border-gray-300 hover:bg-gray-300 transition-colors duration-300 self-start mb-6">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-            <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" />
-        </svg>
-        <span>Home</span>
-    </a>
+    <header class="w-full max-w-5xl flex justify-between items-center py-4 px-2 md:px-6 mb-8">
+        <a href="https://sites.google.com/view/mgkvpmasscom/home-page" class="flex items-center space-x-2 text-gray-600 dark:text-gray-400 hover:text-sky-600 transition-colors duration-200 font-medium text-sm sm:text-base">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" />
+            </svg>
+            <span class="hidden sm:inline">Back to Home</span>
+            <span class="sm:hidden">Home</span>
+        </a>
 
-    <!-- Main Content Container -->
-    <div class="bg-white rounded-2xl p-6 md:p-10 max-w-2xl mx-auto shadow-2xl flex-grow flex flex-col items-center text-center justify-center">
-        
-        <!-- Language Selector -->
-        <div class="flex items-center space-x-2 mb-6">
-            <span class="text-sm font-medium text-gray-700">Language:</span>
-            <select id="language-selector" onchange="translatePage()" class="bg-gray-200 text-gray-800 rounded-md py-1 px-2 border border-gray-300 focus:outline-none focus:ring focus:border-blue-400">
-                <option value="en">English</option>
-                <option value="hi">Hindi</option>
-            </select>
+        <div class="flex items-center space-x-3 sm:space-x-4">
+            <a href="admin.html" class="text-xs sm:text-sm font-semibold text-gray-500 dark:text-gray-400 hover:text-sky-600 transition-colors duration-200">
+                Admin
+            </a>
+            
+            <button id="theme-toggle" class="p-2 rounded-full text-gray-700 dark:text-sky-400 bg-gray-200 dark:bg-slate-800 hover:ring-2 ring-sky-500 transition-colors duration-200">
+                <svg xmlns="http://www.w3.org/2000/svg" id="sun-icon" class="h-5 w-5 hidden dark:block" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 00-.707-.293h-.003a1 1 0 00-.707 1.707l.707.707a1 1 0 101.414-1.414l-.707-.707zM15 10a1 1 0 11-2 0 1 1 0 012 0zm-12.727-2.12a1 1 0 00-.707-.293h-.003a1 1 0 00-.707 1.707l.707.707a1 1 0 001.414-1.414l-.707-.707zM4 10a1 1 0 01-1 1H2a1 1 0 110-2h1a1 1 0 011 1zm2.121 3.293a1 1 0 00.707.293h.003a1 1 0 00.707-1.707l-.707-.707a1 1 0 00-1.414 1.414l.707.707zm8.485-9.899l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zM10 15a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM2.808 5.293a1 1 0 00.707-.293h.003a1 1 0 00.707-1.707l-.707-.707a1 1 0 00-1.414 1.414l.707.707z" clip-rule="evenodd" />
+                </svg>
+                <svg xmlns="http://www.w3.org/2000/svg" id="moon-icon" class="h-5 w-5 block dark:hidden" viewBox="0 0 20 20" fill="currentColor">
+                    <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" />
+                </svg>
+            </button>
+
+            <div class="relative">
+                <select id="language-selector" onchange="translatePage()" class="appearance-none bg-white dark:bg-slate-700 border border-gray-300 dark:border-slate-600 text-gray-700 dark:text-gray-300 py-1 px-2 sm:px-3 rounded-lg text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-sky-500 transition-colors duration-500">
+                    <option value="en">English</option>
+                    <option value="hi">Hindi</option>
+                </select>
+                <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-1 sm:px-2 text-gray-700 dark:text-gray-300 transition-colors duration-500">
+                    <svg class="fill-current h-3 w-3 sm:h-4 sm:w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
+                </div>
+            </div>
         </div>
-<h2 class="text-xl md:text-2xl font-semibold text-gray-700 mb-2">
-  <a href="admin.html" class="text-blue-600 hover:underline">Admin Login</a>
-</h2>
-        <h1 id="main-heading" class="text-3xl md:text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-teal-500 to-blue-600 mb-4">
-            Third Year & Second Year Notes Access
+    </header>
+
+    <div class="main-card bg-white rounded-3xl p-6 md:p-10 max-w-5xl w-full shadow-2xl border border-gray-100 transition-colors duration-500">
+        
+        <h1 id="main-heading" class="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-center mb-6 md:mb-10 gradient-text transition-colors duration-500">
+            Third & Second Year Notes Access
         </h1>
-
         
+        <div class="grid grid-cols-1 md:grid-cols-5 gap-6 md:gap-8 mb-8 md:mb-10">
+            
+            <div class="md:col-span-2 p-6 bg-sky-50 info-box rounded-xl border border-sky-200 flex flex-col justify-between transition-colors duration-500">
+                <div>
+                    <h2 id="paid-info" class="text-xl md:text-2xl font-bold text-sky-800 dark:text-sky-300 mb-2 transition-colors duration-500">Exclusive Access</h2>
+                    <p class="text-sm text-sky-600 dark:text-sky-400 mb-4 transition-colors duration-500">Content available for paid users only.</p>
+                    
+                    <div class="my-4">
+                        <span id="cost-info" class="text-3xl md:text-4xl font-extrabold text-sky-600 dark:text-sky-400 transition-colors duration-500">
+                            ₹150
+                        </span>
+                        <span class="text-lg md:text-xl font-medium text-sky-600 dark:text-sky-400 transition-colors duration-500">Only (2nd Year + 3rd Year+ A.I.)</span>
+                    </div>
 
-        <h2 id="paid-info" class="text-xl md:text-2xl font-semibold text-gray-700 mb-2">Only Paid Users can access</h2>
-        <h2 id="cost-info" class="text-xl md:text-2xl font-semibold text-gray-700 mb-6">Cost Only 150 Rs</h2>
+                    <p id="ebook-content-info" class="text-sm text-gray-600 dark:text-gray-400 italic mb-6 transition-colors duration-500">
+                    > Ebook content is available in **both English and Hindi**.
+                    </p>
+                </div>
+                
+                <a id="buy-notes-link" href="https://docs.google.com/forms/d/e/1FAIpQLScDTrc_Sq-xLlZkMjKOMhkf4x9BmEbK3Ajs5yfGCtx-e_Eltg/viewform?usp=header" target="_blank" class="w-full text-center bg-emerald-500 hover:bg-emerald-600 text-white font-bold py-3 rounded-xl shadow-lg transition-all duration-300 transform hover:scale-[1.02]">
+                    <span id="buy-notes-text" class="text-base md:text-lg">BUY NOTES NOW</span>
+                </a>
+            </div>
 
-        <p id="ebook-content-info" class="text-sm text-gray-500 mb-6 italic">
-            Ebook content will be available in both English and Hindi.
-        </p>
-
-        <p class="text-gray-600 text-lg mb-6">
-            📚 <strong class="text-gray-800" id="buy-notes-text">Click on the Link to buy Notes:</strong>
-            <a id="buy-notes-link" href="https://docs.google.com/forms/d/e/1FAIpQLScDTrc_Sq-xLlZkMjKOMhkf4x9BmEbK3Ajs5yfGCtx-e_Eltg/viewform?usp=header" target="_blank" class="text-blue-600 hover:underline font-bold transition-colors duration-300">CLICK HERE TO BUY</a>
-        </p>
-        
-        <p class="text-gray-600 text-lg mb-4" id="view-notes-text">
-            📚 <strong class="text-gray-800">If you have bought notes click to view 2nd year or 3rd year notes:</strong>
-        </p>
-
-        <!-- Paid Access Buttons -->
-        <div class="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4 mb-8">
-            <a href="2ndyear.html" class="bg-emerald-500 hover:bg-emerald-600 text-white font-bold py-3 px-8 rounded-full shadow-lg transition-colors duration-300 transform hover:scale-105">
-                <span id="button-2nd-year">2nd Year Paid</span>
-            </a>
-            <a href="3rdyear.html" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-full shadow-lg transition-colors duration-300 transform hover:scale-105">
-                <span id="button-3rd-year">3rd Year Paid</span>
-            </a>
+            <div class="md:col-span-3 shadow-xl rounded-xl overflow-hidden border-4 border-gray-100 dark:border-slate-700 transition-colors duration-500">
+                <section id="autoVideoSection" style="position: relative; width: 100%; padding-top: 56.25%; /* 16:9 ratio */ overflow: hidden;">
+                    <iframe
+                        id="ytplayer"
+                        src="https://www.youtube.com/embed/rl8U-aUMreM?autoplay=0&mute=0&controls=1&rel=0&modestbranding=1&enablejsapi=1"
+                        frameborder="0"
+                        allow="autoplay; fullscreen"
+                        allowfullscreen
+                        style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 10;"
+                    ></iframe>
+                </section>
+                <p id="video-caption" class="text-center text-xs text-gray-500 dark:text-gray-400 p-2 bg-gray-50 dark:bg-slate-700 transition-colors duration-500">
+                    <span class="font-semibold text-gray-700 dark:text-gray-300 transition-colors duration-500">Watch Video:</span> Learn about the notes before purchasing.
+                </p>
+            </div>
         </div>
 
-        <p class="text-gray-600 text-lg mb-4">
-            📚 <strong class="text-gray-800" id="download-qr-text">If You Have Bought The Notes Click to Download the book Mark Q.R. Code:</strong>
-            <a id="download-qr-link" href="https://uzairb2b.github.io/Bookmark/" target="_blank" class="text-blue-600 hover:underline font-bold transition-colors duration-300">CLICK HERE TO Download Your Q.R. BOOK MARK</a>
-        </p>
-        <p class="text-gray-600 text-lg">
-            📚 <strong class="text-gray-800" id="contact-text">If You Have Bought The Notes but There is a issue, on opening or verification issue click on link to contact via whatsapp:</strong>
-            <a id="contact-link" href="https://wa.link/gu6473" target="_blank" class="text-blue-600 hover:underline font-bold transition-colors duration-300">CLICK HERE TO Contact</a>
-        </p>
+        <div class="border-t border-gray-200 dark:border-slate-700 pt-6 md:pt-8 transition-colors duration-500">
+            <h2 id="view-notes-text" class="text-xl md:text-2xl font-semibold text-gray-700 dark:text-gray-300 mb-6 text-center transition-colors duration-500">
+                Access Your Purchased Notes
+            </h2>
+
+            <div class="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-6 mb-8 md:mb-10">
+                <a href="2ndyear.html" class="flex-1 text-center bg-sky-600 hover:bg-sky-700 text-white font-semibold py-3 md:py-4 px-6 md:px-8 rounded-full shadow-lg transition-all duration-300 transform hover:scale-105 min-w-[180px] md:min-w-[200px]">
+                    <span id="button-2nd-year" class="text-base md:text-lg">2nd Year Notes</span>
+                </a>
+                <a href="3rdyear.html" class="flex-1 text-center bg-teal-600 hover:bg-teal-700 text-white font-semibold py-3 md:py-4 px-6 md:px-8 rounded-full shadow-lg transition-all duration-300 transform hover:scale-105 min-w-[180px] md:min-w-[200px]">
+                    <span id="button-3rd-year" class="text-base md:text-lg">3rd Year Notes</span>
+                </a>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 text-center">
+                
+                <div class="p-4 bg-gray-50 dark:bg-slate-700 rounded-xl border border-gray-200 dark:border-slate-600 hover:bg-gray-100 dark:hover:bg-slate-600 transition-colors duration-500">
+                    <p id="download-qr-text" class="text-sm text-gray-600 dark:text-gray-400 mb-2 transition-colors duration-500">
+                        Get your digital bookmark for quick access:
+                    </p>
+                    <a id="download-qr-link" href="https://uzairb2b.github.io/Bookmark/" target="_blank" class="inline-block font-bold text-sky-600 dark:text-sky-400 hover:text-sky-800 dark:hover:text-sky-300 transition-colors duration-500 text-base">
+                        <span class="flex items-center justify-center space-x-1">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L10 11.586l1.293-1.293a1 1 0 111.414 1.414l-2 2a1 1 0 01-1.414 0l-2-2a1 1 0 010-1.414z" clip-rule="evenodd" />
+                            </svg>
+                            <span>Download QR Bookmark</span>
+                        </span>
+                    </a>
+                </div>
+
+                <div class="p-4 bg-gray-50 dark:bg-slate-700 rounded-xl border border-gray-200 dark:border-slate-600 hover:bg-gray-100 dark:hover:bg-slate-600 transition-colors duration-500">
+                    <p id="contact-text" class="text-sm text-gray-600 dark:text-gray-400 mb-2 transition-colors duration-500">
+                        Issue with opening, verification, or purchase? Contact support:
+                    </p>
+                    <a id="contact-link" href="https://wa.link/gu6473" target="_blank" class="inline-block font-bold text-teal-600 dark:text-teal-400 hover:text-teal-800 dark:hover:text-teal-300 transition-colors duration-500 text-base">
+                        <span class="flex items-center justify-center space-x-1">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.772-1.549a1 1 0 011.06-.54l4.435.74A1 1 0 0118 16.847V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
+                            </svg>
+                            <span>WhatsApp Support</span>
+                        </span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
     </div>
 
-    <!-- Footer -->
-    <footer id="footer-text" class="text-center text-gray-500 text-sm mt-8">
+    <footer id="footer-text" class="text-center text-gray-500 dark:text-gray-400 text-xs mt-8 p-4 transition-colors duration-500">
         website by uzair b2b services
     </footer>
 
     <script>
+        // --- Theme Toggle Script ---
+        const themeToggle = document.getElementById('theme-toggle');
+        const htmlElement = document.documentElement; // The <html> tag
+        
+        // 1. Initial Theme Setup
+        // Check local storage. If no preference, default to 'light'.
+        const storedTheme = localStorage.getItem('theme');
+        
+        if (storedTheme === 'dark') {
+            htmlElement.classList.add('dark');
+        } else {
+            // Default or stored 'light'
+            htmlElement.classList.remove('dark');
+        }
+
+
+        // 2. Toggle Functionality
+        themeToggle.addEventListener('click', () => {
+            const isDark = htmlElement.classList.toggle('dark');
+            
+            // Save preference
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+        });
+        
+        // --- Video Fullscreen and Play Script (Unmodified) ---
+        function requestFullScreen(el) {
+            if (el.requestFullscreen) el.requestFullscreen();
+            else if (el.webkitRequestFullscreen) el.webkitRequestFullscreen();
+            else if (el.mozRequestFullScreen) el.mozRequestFullScreen();
+            else if (el.msRequestFullscreen) el.msRequestFullscreen();
+        }
+
+        const tag = document.createElement('script');
+        tag.src = "https://www.youtube.com/iframe_api";
+        document.body.appendChild(tag);
+
+        let player;
+        window.onYouTubeIframeAPIReady = function() {
+            player = new YT.Player('ytplayer', {
+                events: {
+                    'onReady': (event) => {
+                        document.getElementById('autoVideoSection').addEventListener('click', () => {
+                            event.target.playVideo();
+                        });
+                    }
+                }
+            });
+        };
+
+        // --- Translation Script (Unmodified functionality) ---
         const translations = {
             en: {
-                mainHeading: "Third Year & Second Year Notes Access",
-                paidInfo: "Only Paid Users can access",
-                costInfo: "Cost Only 150 Rs",
-                ebookContentInfo: "Ebook content will be available in both English and Hindi.",
-                buyNotesText: "Click on the Link to buy Notes:",
-                viewNotesText: "If you have bought notes click to view 2nd year or 3rd year notes:",
-                buyNotesLink: "CLICK HERE TO BUY",
-                button2ndYear: "2nd Year Paid",
-                button3rdYear: "3rd Year Paid",
-                downloadQrText: "If You Have Bought The Notes Click to Download the book Mark Q.R. Code:",
-                downloadQrLink: "CLICK HERE TO Download Your Q.R. BOOK MARK",
-                contactText: "If You Have Bought The Notes but There is a issue, on opening or verification issue click on link to contact via whatsapp:",
-                contactLink: "CLICK HERE TO Contact",
+                mainHeading: "Third & Second Year Notes Access",
+                paidInfo: "Exclusive Access",
+                costInfo: "₹150",
+                ebookContentInfo: "Ebook content is available in **both English and Hindi**.",
+                videoCaption: "Watch Video: Learn about the notes before purchasing.",
+                buyNotesText: "BUY NOTES NOW",
+                viewNotesText: "Access Your Purchased Notes",
+                button2ndYear: "2nd Year Notes",
+                button3rdYear: "3rd Year Notes",
+                downloadQrText: "Get your digital bookmark for quick access:",
+                downloadQrLink: "Download QR Bookmark",
+                contactText: "Issue with opening, verification, or purchase? Contact support:",
+                contactLink: "WhatsApp Support",
                 footerText: "website by uzair b2b services"
             },
             hi: {
-                mainHeading: "तृतीय वर्ष और द्वितीय वर्ष के नोट्स तक पहुंच",
-                paidInfo: "केवल भुगतान किए गए उपयोगकर्ता ही पहुंच सकते हैं",
-                costInfo: "लागत केवल 150 रुपये",
-                ebookContentInfo: "ईबुक सामग्री अंग्रेजी और हिंदी दोनों में उपलब्ध होगी।",
-                buyNotesText: "नोट्स खरीदने के लिए लिंक पर क्लिक करें:",
-                viewNotesText: "यदि आपने नोट्स खरीद लिए हैं, तो द्वितीय वर्ष या तृतीय वर्ष के नोट्स देखने के लिए क्लिक करें:",
-                buyNotesLink: "खरीदने के लिए यहां क्लिक करें",
-                button2ndYear: "द्वितीय वर्ष सशुल्क",
-                button3rdYear: "तृतीय वर्ष सशुल्क",
-                downloadQrText: "यदि आपने नोट्स खरीद लिए हैं, तो बुक मार्क क्यूआर कोड डाउनलोड करने के लिए क्लिक करें:",
-                downloadQrLink: "अपनी क्यूआर बुक मार्क डाउनलोड करने के लिए यहां क्लिक करें",
-                contactText: "यदि आपने नोट्स खरीदे हैं, लेकिन खोलने या सत्यापन में कोई समस्या है, तो व्हाट्सएप के माध्यम से संपर्क करने के लिए लिंक पर क्लिक करें:",
-                contactLink: "संपर्क करने के लिए यहां क्लिक करें",
+                mainHeading: "तृतीय और द्वितीय वर्ष के नोट्स तक पहुंच",
+                paidInfo: "विशेष पहुंच",
+                costInfo: "₹150",
+                ebookContentInfo: "ईबुक सामग्री अंग्रेजी और हिंदी दोनों में उपलब्ध है।",
+                videoCaption: "वीडियो देखें: खरीदने से पहले नोट्स के बारे में जानें।",
+                buyNotesText: "नोट्स अभी खरीदें",
+                viewNotesText: "अपने खरीदे गए नोट्स तक पहुंचें",
+                button2ndYear: "द्वितीय वर्ष नोट्स",
+                button3rdYear: "तृतीय वर्ष नोट्स",
+                downloadQrText: "त्वरित पहुंच के लिए अपना डिजिटल बुकमार्क प्राप्त करें:",
+                downloadQrLink: "क्यूआर बुकमार्क डाउनलोड करें",
+                contactText: "खोलने, सत्यापन या खरीद में समस्या? समर्थन से संपर्क करें:",
+                contactLink: "व्हाट्सएप समर्थन",
                 footerText: "वेबसाइट बाय उजैर बी2बी सर्विसेज"
             }
         };
@@ -130,11 +281,20 @@
             if (t) {
                 document.getElementById('main-heading').innerText = t.mainHeading;
                 document.getElementById('paid-info').innerText = t.paidInfo;
-                document.getElementById('cost-info').innerText = t.costInfo;
+                // Temporarily remove currency symbol for simple translation
+                const cost = t.costInfo.replace('₹', ''); 
+                document.getElementById('cost-info').innerText = cost;
+
                 document.getElementById('ebook-content-info').innerText = t.ebookContentInfo;
+                
+                // Smartly update the video caption content
+                const videoCaptionElement = document.getElementById('video-caption');
+                const [title, content] = t.videoCaption.split(': ');
+                // Ensure dark mode text colors are included in the caption update
+                videoCaptionElement.innerHTML = `<span class="font-semibold text-gray-700 dark:text-gray-300 transition-colors duration-500">${title}:</span> ${content}`;
+
                 document.getElementById('buy-notes-text').innerText = t.buyNotesText;
                 document.getElementById('view-notes-text').innerText = t.viewNotesText;
-                document.getElementById('buy-notes-link').innerText = t.buyNotesLink;
                 document.getElementById('button-2nd-year').innerText = t.button2ndYear;
                 document.getElementById('button-3rd-year').innerText = t.button3rdYear;
                 document.getElementById('download-qr-text').innerText = t.downloadQrText;
@@ -142,6 +302,9 @@
                 document.getElementById('contact-text').innerText = t.contactText;
                 document.getElementById('contact-link').innerText = t.contactLink;
                 document.getElementById('footer-text').innerText = t.footerText;
+                
+                // Add the currency symbol back after translation for both languages
+                document.getElementById('cost-info').innerText = '₹' + document.getElementById('cost-info').innerText;
             }
         }
 
