@@ -1,318 +1,995 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Uzair Ahmed - Notes & Ebook Access</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <title>Uzair Ahmed — Notes & Ebook Access</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --bg: #05080f;
+            --surface: #0c1221;
+            --surface-2: #111827;
+            --border: rgba(255,255,255,0.07);
+            --border-accent: rgba(56,189,248,0.25);
+            --text: #f0f4ff;
+            --text-muted: #6b7ea0;
+            --text-dim: #3d4f6e;
+            --accent: #38bdf8;
+            --accent-2: #10d9a0;
+            --accent-glow: rgba(56,189,248,0.15);
+            --accent-2-glow: rgba(16,217,160,0.12);
+            --danger: #f87171;
+            --gold: #fbbf24;
+        }
+        [data-theme="light"] {
+            --bg: #f4f7fe;
+            --surface: #ffffff;
+            --surface-2: #edf1fb;
+            --border: rgba(0,0,0,0.07);
+            --border-accent: rgba(56,189,248,0.3);
+            --text: #0f172a;
+            --text-muted: #4b5a7a;
+            --text-dim: #9aa5bc;
+            --accent: #0284c7;
+            --accent-2: #059669;
+            --accent-glow: rgba(2,132,199,0.08);
+            --accent-2-glow: rgba(5,150,105,0.08);
+        }
+
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        html { scroll-behavior: smooth; }
+
         body {
-            font-family: 'Inter', sans-serif;
+            font-family: 'DM Sans', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            transition: background 0.4s, color 0.4s;
+            overflow-x: hidden;
         }
 
-        /* LIGHT MODE STYLES (Default) */
-        .gradient-text {
-            background-clip: text;
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(56,189,248,0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(56,189,248,0.03) 1px, transparent 1px);
+            background-size: 60px 60px;
+            pointer-events: none;
+            z-index: 0;
+        }
+        [data-theme="light"] body::before {
+            background-image:
+                linear-gradient(rgba(2,132,199,0.04) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(2,132,199,0.04) 1px, transparent 1px);
+        }
+
+        .orb {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(80px);
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.25;
+        }
+        .orb-1 {
+            width: 400px; height: 400px;
+            background: radial-gradient(circle, #38bdf8 0%, transparent 70%);
+            top: -150px; right: -100px;
+            animation: orbFloat 12s ease-in-out infinite;
+        }
+        .orb-2 {
+            width: 300px; height: 300px;
+            background: radial-gradient(circle, #10d9a0 0%, transparent 70%);
+            bottom: -100px; left: -100px;
+            animation: orbFloat 16s ease-in-out infinite reverse;
+        }
+        @keyframes orbFloat {
+            0%, 100% { transform: translate(0, 0); }
+            50% { transform: translate(20px, -20px); }
+        }
+
+        /* ─── Layout ─── */
+        .page-wrapper {
+            position: relative;
+            z-index: 1;
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 16px 60px;
+        }
+
+        /* ─── Header ─── */
+        header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 0 20px;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 36px;
+            gap: 12px;
+        }
+        .logo-mark {
+            font-family: 'Syne', sans-serif;
+            font-weight: 800;
+            font-size: clamp(0.65rem, 2.5vw, 1.1rem);
+            letter-spacing: -0.02em;
+            background: linear-gradient(90deg, var(--accent), var(--accent-2));
             -webkit-background-clip: text;
+            background-clip: text;
             color: transparent;
-            background-image: linear-gradient(to right, #059669, #0ea5e9); /* Emerald to Sky blue */
+            line-height: 1.3;
         }
-        
-        /* DARK MODE STYLES (Applied when parent <html> has class="dark") */
-        .dark body {
-            background-color: #0f172a; /* Slate-900 */
-            color: #e2e8f0; /* Slate-200 */
+        .back-link {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            text-decoration: none;
+            min-width: 0;
+            flex: 1;
+        }
+        .back-link svg { width: 14px; height: 14px; color: var(--text-muted); flex-shrink: 0; }
+        .back-link:hover .logo-mark { opacity: 0.8; }
+
+        .header-controls {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-shrink: 0;
+        }
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        .nav-link {
+            font-size: 0.78rem;
+            font-weight: 500;
+            color: var(--text-muted);
+            text-decoration: none;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            transition: color 0.2s;
+        }
+        .nav-link:hover { color: var(--text); }
+
+        .icon-btn {
+            width: 34px; height: 34px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            background: var(--surface);
+            color: var(--text-muted);
+            cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            transition: border-color 0.2s, color 0.2s;
+            flex-shrink: 0;
+        }
+        .icon-btn:hover { border-color: var(--accent); color: var(--accent); }
+        .icon-btn svg { width: 15px; height: 15px; }
+
+        .lang-select {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            color: var(--text-muted);
+            padding: 6px 8px;
+            border-radius: 8px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.75rem;
+            cursor: pointer;
+            outline: none;
+            transition: border-color 0.2s, color 0.2s;
+        }
+        .lang-select:focus, .lang-select:hover { border-color: var(--accent); color: var(--text); }
+
+        /* ─── Hero Section ─── */
+        .hero {
+            text-align: center;
+            margin-bottom: 40px;
+            animation: fadeUp 0.7s ease both;
+            padding: 0 8px;
+        }
+        .hero-eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.68rem;
+            font-weight: 600;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: var(--accent);
+            border: 1px solid var(--border-accent);
+            background: var(--accent-glow);
+            padding: 5px 12px;
+            border-radius: 100px;
+            margin-bottom: 18px;
+        }
+        .hero-eyebrow .dot {
+            width: 5px; height: 5px;
+            border-radius: 50%;
+            background: var(--accent);
+            animation: pulse 2s infinite;
+            flex-shrink: 0;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(0.8); }
         }
 
-        .dark .main-card {
-            background-color: #1e293b; /* Slate-800 */
-            border-color: #334155; /* Slate-700 */
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7);
+        .hero h1 {
+            font-family: 'Syne', sans-serif;
+            font-size: clamp(1.9rem, 7vw, 3.8rem);
+            font-weight: 800;
+            line-height: 1.1;
+            letter-spacing: -0.03em;
+            margin-bottom: 14px;
+        }
+        .gradient-text {
+            background: linear-gradient(135deg, var(--accent) 0%, var(--accent-2) 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        .hero-sub {
+            font-size: clamp(0.85rem, 3vw, 1rem);
+            color: var(--text-muted);
+            font-weight: 300;
+            max-width: 420px;
+            margin: 0 auto;
+            line-height: 1.7;
         }
 
-        .dark .gradient-text {
-            background-image: linear-gradient(to right, #10b981, #38bdf8); /* Emerald to Sky blue (brighter for dark mode) */
+        /* ─── Stats Row ─── */
+        .stats-row {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-bottom: 16px;
+            animation: fadeUp 0.7s 0.1s ease both;
+        }
+        .stat-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 16px 10px;
+            text-align: center;
+        }
+        .stat-num {
+            font-family: 'Syne', sans-serif;
+            font-size: clamp(1.2rem, 4vw, 1.7rem);
+            font-weight: 800;
+            color: var(--accent);
+            line-height: 1;
+            margin-bottom: 4px;
+        }
+        .stat-num.green { color: var(--accent-2); }
+        .stat-num.gold { color: var(--gold); }
+        .stat-label {
+            font-size: clamp(0.6rem, 2vw, 0.72rem);
+            color: var(--text-dim);
+            font-weight: 400;
         }
 
-        /* Special dark mode class for the info box */
-        .dark .info-box {
-            background-color: #0f344e; /* Darker blue */
-            border-color: #075985; /* Stronger blue border */
+        /* ─── Main Grid ─── */
+        .main-grid {
+            display: grid;
+            grid-template-columns: 340px 1fr;
+            gap: 16px;
+            margin-bottom: 16px;
+            animation: fadeUp 0.7s 0.2s ease both;
         }
 
-        .dark .text-gray-700 { color: #cbd5e1; /* Slate-300 */ }
-        .dark .text-gray-500 { color: #94a3b8; /* Slate-400 */ }
-        .dark .bg-gray-50 { background-color: #1f2937; /* Darker utility background */ }
-        .dark .border-gray-200 { border-color: #374151; }
-        .dark .hover\:bg-gray-100:hover { background-color: #2f3e4e; }
-        .dark .text-sky-600 { color: #38bdf8; } /* Cyan */
-        .dark .text-teal-600 { color: #10b981; } /* Emerald */
+        /* ─── Cards ─── */
+        .card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            padding: 24px;
+            transition: border-color 0.3s, background 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+        .card:hover { border-color: var(--border-accent); }
+
+        /* Pricing Card */
+        .pricing-card {
+            background: linear-gradient(145deg, #0a1628 0%, #0c1e35 100%);
+            border-color: rgba(56,189,248,0.2);
+            display: flex;
+            flex-direction: column;
+        }
+        [data-theme="light"] .pricing-card {
+            background: linear-gradient(145deg, #e8f4fd 0%, #dff0f8 100%);
+            border-color: rgba(2,132,199,0.2);
+        }
+        .pricing-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--accent), transparent);
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 0.65rem;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            padding: 4px 10px;
+            border-radius: 6px;
+            margin-bottom: 16px;
+        }
+        .badge-gold {
+            background: rgba(251,191,36,0.12);
+            color: var(--gold);
+            border: 1px solid rgba(251,191,36,0.25);
+        }
+
+        .pricing-card h2 {
+            font-family: 'Syne', sans-serif;
+            font-size: clamp(1.1rem, 3.5vw, 1.4rem);
+            font-weight: 700;
+            margin-bottom: 5px;
+            color: var(--text);
+        }
+        .pricing-card p {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-bottom: 20px;
+            font-weight: 300;
+            line-height: 1.5;
+        }
+        .price-block {
+            display: flex;
+            align-items: baseline;
+            gap: 8px;
+            margin-bottom: 4px;
+        }
+        .price-amount {
+            font-family: 'Syne', sans-serif;
+            font-size: clamp(2.2rem, 7vw, 3.2rem);
+            font-weight: 800;
+            color: var(--accent);
+            line-height: 1;
+        }
+        .price-includes {
+            font-size: 0.73rem;
+            color: var(--accent-2);
+            margin-bottom: 20px;
+            font-weight: 500;
+        }
+
+        .features-list {
+            list-style: none;
+            margin-bottom: 22px;
+            flex: 1;
+        }
+        .features-list li {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            padding: 7px 0;
+            border-bottom: 1px solid var(--border);
+        }
+        .features-list li:last-child { border-bottom: none; }
+        .feat-icon {
+            width: 18px; height: 18px;
+            border-radius: 4px;
+            background: var(--accent-glow);
+            color: var(--accent);
+            display: flex; align-items: center; justify-content: center;
+            flex-shrink: 0;
+        }
+        .feat-icon.green {
+            background: var(--accent-2-glow);
+            color: var(--accent-2);
+        }
+        .feat-icon svg { width: 10px; height: 10px; }
+
+        .btn-primary {
+            display: block;
+            width: 100%;
+            text-align: center;
+            background: linear-gradient(135deg, var(--accent) 0%, #0ea5e9 100%);
+            color: #fff;
+            font-family: 'Syne', sans-serif;
+            font-size: 0.88rem;
+            font-weight: 700;
+            letter-spacing: 0.04em;
+            padding: 14px 24px;
+            border-radius: 12px;
+            text-decoration: none;
+            transition: opacity 0.2s, transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 4px 24px rgba(56,189,248,0.25);
+            position: relative;
+            overflow: hidden;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 8px 32px rgba(56,189,248,0.35); }
+        .btn-primary:active { transform: translateY(0); opacity: 0.9; }
+
+        /* Access Card */
+        .access-card {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+        .access-card h2 {
+            font-family: 'Syne', sans-serif;
+            font-size: clamp(1rem, 3vw, 1.1rem);
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: 2px;
+        }
+        .section-label {
+            font-size: 0.68rem;
+            font-weight: 600;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--text-dim);
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .year-buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+        .btn-year {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            padding: 18px 12px;
+            border-radius: 14px;
+            text-decoration: none;
+            border: 1px solid var(--border);
+            background: var(--surface-2);
+            transition: all 0.25s;
+            position: relative;
+            overflow: hidden;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .btn-year::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        .btn-year.sky::before { background: linear-gradient(135deg, rgba(56,189,248,0.08), rgba(56,189,248,0.03)); }
+        .btn-year.teal::before { background: linear-gradient(135deg, rgba(16,217,160,0.08), rgba(16,217,160,0.03)); }
+        .btn-year:hover { border-color: var(--border-accent); transform: translateY(-2px); }
+        .btn-year:hover::before { opacity: 1; }
+        .btn-year.teal:hover { border-color: rgba(16,217,160,0.3); }
+        .btn-year:active { transform: translateY(0); }
+        .btn-year-icon {
+            width: 40px; height: 40px;
+            border-radius: 10px;
+            display: flex; align-items: center; justify-content: center;
+            font-family: 'Syne', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 800;
+        }
+        .btn-year.sky .btn-year-icon { background: rgba(56,189,248,0.1); color: var(--accent); }
+        .btn-year.teal .btn-year-icon { background: rgba(16,217,160,0.1); color: var(--accent-2); }
+        .btn-year-label {
+            font-size: 0.77rem;
+            font-weight: 500;
+            color: var(--text);
+            text-align: center;
+        }
+        .btn-year-sub {
+            font-size: 0.65rem;
+            color: var(--text-dim);
+        }
+
+        .utility-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+        .utility-btn {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 13px 14px;
+            border-radius: 12px;
+            text-decoration: none;
+            border: 1px solid var(--border);
+            background: var(--surface-2);
+            transition: all 0.25s;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .utility-btn:hover { border-color: var(--border-accent); }
+        .utility-btn.green:hover { border-color: rgba(16,217,160,0.3); }
+        .utility-icon {
+            width: 32px; height: 32px;
+            border-radius: 8px;
+            display: flex; align-items: center; justify-content: center;
+            flex-shrink: 0;
+        }
+        .utility-icon.sky { background: rgba(56,189,248,0.1); color: var(--accent); }
+        .utility-icon.green { background: rgba(16,217,160,0.1); color: var(--accent-2); }
+        .utility-icon svg { width: 15px; height: 15px; }
+        .utility-text strong {
+            display: block;
+            font-size: 0.77rem;
+            font-weight: 600;
+            color: var(--text);
+            margin-bottom: 1px;
+        }
+        .utility-text span {
+            font-size: 0.67rem;
+            color: var(--text-muted);
+        }
+
+        .divider {
+            height: 1px;
+            background: var(--border);
+        }
+
+        /* Footer */
+        footer {
+            margin-top: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding-top: 20px;
+            border-top: 1px solid var(--border);
+            animation: fadeUp 0.7s 0.3s ease both;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+        .footer-copy {
+            font-size: 0.72rem;
+            color: var(--text-dim);
+            font-weight: 300;
+        }
+        .footer-copy strong { color: var(--text-muted); font-weight: 500; }
+        .footer-links { display: flex; gap: 16px; }
+        .footer-links a {
+            font-size: 0.7rem;
+            color: var(--text-dim);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        .footer-links a:hover { color: var(--accent); }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ═══════════════════════════════════
+           RESPONSIVE BREAKPOINTS
+        ═══════════════════════════════════ */
+
+        /* Tablet and below */
+        @media (max-width: 900px) {
+            .main-grid {
+                grid-template-columns: 1fr;
+            }
+            .nav-links { display: none; }
+        }
+
+        /* Mobile */
+        @media (max-width: 600px) {
+            .page-wrapper {
+                padding: 0 12px 48px;
+            }
+
+            header {
+                padding: 14px 0 16px;
+                margin-bottom: 28px;
+            }
+
+            .hero {
+                margin-bottom: 28px;
+                padding: 0 4px;
+            }
+
+            .hero-eyebrow {
+                font-size: 0.62rem;
+                padding: 4px 10px;
+                margin-bottom: 14px;
+            }
+
+            .stats-row {
+                gap: 8px;
+                margin-bottom: 12px;
+            }
+
+            .stat-card {
+                padding: 14px 8px;
+                border-radius: 12px;
+            }
+
+            .main-grid {
+                gap: 12px;
+                margin-bottom: 12px;
+            }
+
+            .card {
+                padding: 20px 18px;
+                border-radius: 16px;
+            }
+
+            .year-buttons {
+                gap: 8px;
+            }
+
+            .btn-year {
+                padding: 16px 10px;
+                gap: 6px;
+            }
+
+            .btn-year-icon {
+                width: 36px;
+                height: 36px;
+                font-size: 0.82rem;
+            }
+
+            .utility-grid {
+                gap: 8px;
+            }
+
+            .utility-btn {
+                padding: 11px 12px;
+                gap: 8px;
+            }
+
+            .utility-icon {
+                width: 30px;
+                height: 30px;
+            }
+
+            footer {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+
+            .features-list li {
+                font-size: 0.77rem;
+            }
+        }
+
+        /* Very small phones (iPhone SE, Galaxy A) */
+        @media (max-width: 380px) {
+            .page-wrapper { padding: 0 10px 40px; }
+
+            .hero h1 { font-size: 1.65rem; }
+
+            .hero-sub { font-size: 0.8rem; }
+
+            .card { padding: 18px 14px; }
+
+            .year-buttons { grid-template-columns: 1fr 1fr; gap: 6px; }
+
+            .btn-year { padding: 14px 8px; }
+
+            .utility-grid { grid-template-columns: 1fr 1fr; gap: 6px; }
+
+            .utility-btn { padding: 10px 10px; gap: 7px; }
+
+            .utility-text strong { font-size: 0.72rem; }
+
+            .features-list li { font-size: 0.74rem; gap: 8px; }
+
+            .btn-primary { font-size: 0.82rem; padding: 13px 18px; }
+
+            .stats-row { gap: 6px; }
+
+            .stat-num { font-size: 1.15rem; }
+        }
+
+        /* Landscape mobile */
+        @media (max-width: 768px) and (orientation: landscape) {
+            .hero { margin-bottom: 20px; }
+            .hero h1 { font-size: 1.8rem; }
+            .stats-row { grid-template-columns: repeat(3, 1fr); }
+            .main-grid { grid-template-columns: 1fr 1fr; gap: 12px; }
+        }
+
+        /* Ensure touch targets are big enough */
+        @media (pointer: coarse) {
+            .btn-primary { min-height: 48px; }
+            .btn-year { min-height: 80px; }
+            .utility-btn { min-height: 52px; }
+            .icon-btn { width: 40px; height: 40px; }
+            .lang-select { padding: 8px 10px; }
+        }
     </style>
 </head>
-<body class="bg-gray-50 text-gray-800 p-4 min-h-screen flex flex-col items-center transition-colors duration-500">
+<body>
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
 
-    <header class="w-full max-w-5xl flex justify-between items-center py-4 px-2 md:px-6 mb-8">
-        <a href="https://sites.google.com/view/mgkvpmasscom/home-page" class="flex items-center space-x-2 text-gray-600 dark:text-gray-400 hover:text-sky-600 transition-colors duration-200 font-medium text-sm sm:text-base">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" />
-            </svg>
-            <span class="hidden sm:inline">Back to Home</span>
-            <span class="sm:hidden">Home</span>
-        </a>
+    <div class="page-wrapper">
 
-        <div class="flex items-center space-x-3 sm:space-x-4">
-            <a href="admin.html" class="text-xs sm:text-sm font-semibold text-gray-500 dark:text-gray-400 hover:text-sky-600 transition-colors duration-200">
-                Admin Login
+        <header>
+            <a href="https://sites.google.com/view/mgkvpmasscom/home-page" class="back-link">
+                <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 3L5 8l5 5"/></svg>
+                <span class="logo-mark">EDUCATION SIMPLIFIED MGKVP</span>
             </a>
-         
-          <a href="policy.html" class="text-xs sm:text-sm font-semibold text-gray-500 dark:text-gray-400 hover:text-sky-600 transition-colors duration-200">
-                Policy & Disclamier
-            </a>
-            
-            <button id="theme-toggle" class="p-2 rounded-full text-gray-700 dark:text-sky-400 bg-gray-200 dark:bg-slate-800 hover:ring-2 ring-sky-500 transition-colors duration-200">
-                <svg xmlns="http://www.w3.org/2000/svg" id="sun-icon" class="h-5 w-5 hidden dark:block" viewBox="0 0 20 20" fill="currentColor">
-                    <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 00-.707-.293h-.003a1 1 0 00-.707 1.707l.707.707a1 1 0 101.414-1.414l-.707-.707zM15 10a1 1 0 11-2 0 1 1 0 012 0zm-12.727-2.12a1 1 0 00-.707-.293h-.003a1 1 0 00-.707 1.707l.707.707a1 1 0 001.414-1.414l-.707-.707zM4 10a1 1 0 01-1 1H2a1 1 0 110-2h1a1 1 0 011 1zm2.121 3.293a1 1 0 00.707.293h.003a1 1 0 00.707-1.707l-.707-.707a1 1 0 00-1.414 1.414l.707.707zm8.485-9.899l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zM10 15a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM2.808 5.293a1 1 0 00.707-.293h.003a1 1 0 00.707-1.707l-.707-.707a1 1 0 00-1.414 1.414l.707.707z" clip-rule="evenodd" />
-                </svg>
-                <svg xmlns="http://www.w3.org/2000/svg" id="moon-icon" class="h-5 w-5 block dark:hidden" viewBox="0 0 20 20" fill="currentColor">
-                    <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" />
-                </svg>
-            </button>
-
-            <div class="relative">
-                <select id="language-selector" onchange="translatePage()" class="appearance-none bg-white dark:bg-slate-700 border border-gray-300 dark:border-slate-600 text-gray-700 dark:text-gray-300 py-1 px-2 sm:px-3 rounded-lg text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-sky-500 transition-colors duration-500">
-                    <option value="en">English</option>
-                    <option value="hi">Hindi</option>
+            <div class="header-controls">
+                <nav class="nav-links">
+                    <a href="admin.html" class="nav-link" id="nav-admin">Admin</a>
+                    <a href="policy.html" class="nav-link" id="nav-policy">Policy</a>
+                </nav>
+                <select class="lang-select" id="language-selector" onchange="translatePage()">
+                    <option value="en">EN</option>
+                    <option value="hi">हि</option>
                 </select>
-                <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-1 sm:px-2 text-gray-700 dark:text-gray-300 transition-colors duration-500">
-                    <svg class="fill-current h-3 w-3 sm:h-4 sm:w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
-                </div>
+                <button class="icon-btn" id="theme-toggle" title="Toggle theme">
+                    <svg id="sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none">
+                        <circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+                    </svg>
+                    <svg id="moon-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/>
+                    </svg>
+                </button>
+            </div>
+        </header>
+
+        <div class="hero">
+            <div class="hero-eyebrow">
+                <span class="dot"></span>
+                <span id="eyebrow-text">Academic Resources</span>
+            </div>
+            <h1>
+                <span id="main-heading">Notes & Ebook</span><br>
+                <span class="gradient-text" id="main-heading-2">Access Portal</span>
+            </h1>
+            <p class="hero-sub" id="hero-sub">Premium study material for Mass Communication students — curated, verified, and available in English & Hindi.</p>
+        </div>
+
+        <div class="stats-row">
+            <div class="stat-card">
+                <div class="stat-num">2+</div>
+                <div class="stat-label" id="stat-1">Years Covered</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-num green">₹150</div>
+                <div class="stat-label" id="stat-2">One-Time Fee</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-num gold">2</div>
+                <div class="stat-label" id="stat-3">Languages</div>
             </div>
         </div>
-    </header>
 
-    <div class="main-card bg-white rounded-3xl p-4 sm:p-6 md:p-10 max-w-5xl w-full shadow-2xl border border-gray-100 transition-colors duration-500">
-     
-        <h1 id="main-heading" class="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-center mb-6 md:mb-10 gradient-text transition-colors duration-500">
-            Third & Second Year Notes Access
-        </h1>
-        
-        <div class="grid grid-cols-1 lg:grid-cols-5 gap-6 md:gap-8 mb-8 md:mb-10">
-            
-            <div class="lg:col-span-2 p-6 bg-sky-50 info-box rounded-xl border border-sky-200 flex flex-col justify-between transition-colors duration-500">
-                <div>
-                    <h2 id="paid-info" class="text-xl md:text-2xl font-bold text-sky-800 dark:text-sky-300 mb-2 transition-colors duration-500">Exclusive Access</h2>
-                    <p class="text-sm text-sky-600 dark:text-sky-400 mb-4 transition-colors duration-500">Content available for paid users only.</p>
-                    
-                    <div class="my-4">
-                        <span id="cost-info" class="text-3xl md:text-4xl font-extrabold text-sky-600 dark:text-sky-400 transition-colors duration-500">
-                            ₹150
-                        </span>
-                        <span class="text-sm sm:text-lg md:text-xl font-medium text-sky-600 dark:text-sky-400 transition-colors duration-500">Only (2nd Year + 3rd Year+ A.I.)</span>
-                    </div>
+        <div class="main-grid">
 
-                    <p id="ebook-content-info" class="text-sm text-gray-600 dark:text-gray-400 italic mb-6 transition-colors duration-500">
-                    > Ebook content is available in **both English and Hindi**.
-                    </p>
+            <!-- Pricing Card -->
+            <div class="card pricing-card">
+                <span class="badge badge-gold">
+                    <svg width="10" height="10" viewBox="0 0 10 10" fill="currentColor"><polygon points="5,0 6.5,3.5 10,3.8 7.5,6.2 8.2,10 5,8 1.8,10 2.5,6.2 0,3.8 3.5,3.5"/></svg>
+                    <span id="badge-exclusive">Exclusive Access</span>
+                </span>
+                <h2 id="pricing-title">All-In Bundle</h2>
+                <p id="pricing-desc">2nd Year + 3rd Year + A.I. Supplement — everything you need in one payment.</p>
+
+                <div class="price-block">
+                    <div class="price-amount">₹150</div>
                 </div>
-                
-                <a id="buy-notes-link" href="https://docs.google.com/forms/d/e/1FAIpQLScDTrc_Sq-xLlZkMjKOMhkf4x9BmEbK3Ajs5yfGCtx-e_Eltg/viewform?usp=header" target="_blank" class="w-full text-center bg-emerald-500 hover:bg-emerald-600 text-white font-bold py-3 rounded-xl shadow-lg transition-all duration-300 transform hover:scale-[1.02]">
-                    <span id="buy-notes-text" class="text-base md:text-lg">BUY NOTES NOW</span>
+                <div class="price-includes" id="price-includes">Includes 2nd Year + 3rd Year + A.I. Notes</div>
+
+                <ul class="features-list">
+                    <li>
+                        <span class="feat-icon">
+                            <svg viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M2 5l2 2 4-4"/></svg>
+                        </span>
+                        <span id="feat-1">2nd Year complete notes</span>
+                    </li>
+                    <li>
+                        <span class="feat-icon">
+                            <svg viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M2 5l2 2 4-4"/></svg>
+                        </span>
+                        <span id="feat-2">3rd Year complete notes</span>
+                    </li>
+                    <li>
+                        <span class="feat-icon green">
+                            <svg viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M2 5l2 2 4-4"/></svg>
+                        </span>
+                        <span id="feat-3">Artificial Intelligence supplement</span>
+                    </li>
+                    <li>
+                        <span class="feat-icon green">
+                            <svg viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M2 5l2 2 4-4"/></svg>
+                        </span>
+                        <span id="feat-4">English & Hindi both available</span>
+                    </li>
+                    <li>
+                        <span class="feat-icon">
+                            <svg viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M2 5l2 2 4-4"/></svg>
+                        </span>
+                        <span id="feat-5">Lifetime Notes access</span>
+                    </li>
+                </ul>
+
+                <a id="buy-notes-link" href="https://docs.google.com/forms/d/e/1FAIpQLScDTrc_Sq-xLlZkMjKOMhkf4x9BmEbK3Ajs5yfGCtx-e_Eltg/viewform?usp=header" target="_blank" class="btn-primary">
+                    <span id="buy-notes-text">Purchase Notes →</span>
                 </a>
             </div>
 
-            <div class="lg:col-span-3 shadow-xl rounded-xl overflow-hidden border-4 border-gray-100 dark:border-slate-700 transition-colors duration-500">
-                <section id="autoVideoSection" style="position: relative; width: 100%; padding-top: 56.25%; /* 16:9 ratio */ overflow: hidden;">
-                    <iframe
-                        id="ytplayer"
-                        src="https://www.youtube.com/embed/rl8U-aUMreM?autoplay=0&mute=0&controls=1&rel=0&modestbranding=1&enablejsapi=1"
-                        frameborder="0"
-                        allow="autoplay; fullscreen"
-                        allowfullscreen
-                        style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 10;"
-                    ></iframe>
-                </section>
-                <p id="video-caption" class="text-center text-xs text-gray-500 dark:text-gray-400 p-2 bg-gray-50 dark:bg-slate-700 transition-colors duration-500">
-                    <span class="font-semibold text-gray-700 dark:text-gray-300 transition-colors duration-500">Watch Video:</span> Learn about the notes before purchasing.
+            <!-- Access Card -->
+            <div class="card access-card">
+                <div>
+                    <span class="section-label" id="section-access">Access Your Notes</span>
+                    <h2 id="access-title">Purchased? Dive In.</h2>
+                </div>
+
+                <div class="year-buttons">
+                    <a href="2ndyear.html" class="btn-year sky">
+                        <div class="btn-year-icon">2nd</div>
+                        <div>
+                            <div class="btn-year-label" id="button-2nd-year">2nd Year Notes</div>
+                            <div class="btn-year-sub" id="btn-2nd-sub">Full syllabus</div>
+                        </div>
+                    </a>
+                    <a href="3rdyear.html" class="btn-year teal">
+                        <div class="btn-year-icon">3rd</div>
+                        <div>
+                            <div class="btn-year-label" id="button-3rd-year">3rd Year Notes</div>
+                            <div class="btn-year-sub" id="btn-3rd-sub">Full syllabus</div>
+                        </div>
+                    </a>
+                </div>
+
+                <div class="divider"></div>
+
+                <div>
+                    <span class="section-label" id="section-resources">Quick Resources</span>
+                    <div class="utility-grid">
+                        <a href="https://uzairb2b.github.io/Bookmark/" target="_blank" class="utility-btn">
+                            <div class="utility-icon sky">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+                            </div>
+                            <div class="utility-text">
+                                <strong id="qr-title">QR Bookmark</strong>
+                                <span id="qr-sub">Quick access</span>
+                            </div>
+                        </a>
+                        <a href="https://wa.link/gu6473" target="_blank" class="utility-btn green">
+                            <div class="utility-icon green">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+                            </div>
+                            <div class="utility-text">
+                                <strong id="support-title">WhatsApp</strong>
+                                <span id="support-sub">Support</span>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="divider"></div>
+
+                <p style="font-size:0.73rem; color:var(--text-dim); line-height:1.6;" id="support-note">
+                    Having trouble opening notes, verifying your purchase, or completing payment? Reach out via WhatsApp and we'll resolve it promptly.
                 </p>
             </div>
         </div>
 
-        <div class="border-t border-gray-200 dark:border-slate-700 pt-6 md:pt-8 transition-colors duration-500">
-            <h2 id="view-notes-text" class="text-xl md:text-2xl font-semibold text-gray-700 dark:text-gray-300 mb-6 text-center transition-colors duration-500">
-                Access Your Purchased Notes
-            </h2>
-
-            <div class="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-6 mb-8 md:mb-10">
-                <a href="2ndyear.html" class="flex-grow sm:flex-initial text-center bg-sky-600 hover:bg-sky-700 text-white font-semibold py-3 md:py-4 px-6 md:px-8 rounded-full shadow-lg transition-all duration-300 transform hover:scale-105 min-w-[180px] md:min-w-[200px]">
-                    <span id="button-2nd-year" class="text-base md:text-lg">2nd Year Notes</span>
-                </a>
-                <a href="3rdyear.html" class="flex-grow sm:flex-initial text-center bg-teal-600 hover:bg-teal-700 text-white font-semibold py-3 md:py-4 px-6 md:px-8 rounded-full shadow-lg transition-all duration-300 transform hover:scale-105 min-w-[180px] md:min-w-[200px]">
-                    <span id="button-3rd-year" class="text-base md:text-lg">3rd Year Notes</span>
-                </a>
+        <footer>
+            <div class="footer-copy" id="footer-text">© 2025 <strong>Education Simplified </strong>MGKVP</div>
+            <div class="footer-links">
+                <a href="admin.html" id="footer-admin">Admin</a>
+                <a href="policy.html" id="footer-policy">Policy & Disclaimer</a>
             </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 text-center">
-                
-                <div class="p-4 bg-gray-50 dark:bg-slate-700 rounded-xl border border-gray-200 dark:border-slate-600 hover:bg-gray-100 dark:hover:bg-slate-600 transition-colors duration-500">
-                    <p id="download-qr-text" class="text-sm text-gray-600 dark:text-gray-400 mb-2 transition-colors duration-500">
-                        Get your digital bookmark for quick access:
-                    </p>
-                    <a id="download-qr-link" href="https://uzairb2b.github.io/Bookmark/" target="_blank" class="inline-block font-bold text-sky-600 dark:text-sky-400 hover:text-sky-800 dark:hover:text-sky-300 transition-colors duration-500 text-base">
-                        <span class="flex items-center justify-center space-x-1">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                                <path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L10 11.586l1.293-1.293a1 1 0 111.414 1.414l-2 2a1 1 0 01-1.414 0l-2-2a1 1 0 010-1.414z" clip-rule="evenodd" />
-                            </svg>
-                            <span>Download QR Bookmark</span>
-                        </span>
-                    </a>
-                </div>
-
-                <div class="p-4 bg-gray-50 dark:bg-slate-700 rounded-xl border border-gray-200 dark:border-slate-600 hover:bg-gray-100 dark:hover:bg-slate-600 transition-colors duration-500">
-                    <p id="contact-text" class="text-sm text-gray-600 dark:text-gray-400 mb-2 transition-colors duration-500">
-                        Issue with opening, verification, or purchase? Contact support:
-                    </p>
-                    <a id="contact-link" href="https://wa.link/gu6473" target="_blank" class="inline-block font-bold text-teal-600 dark:text-teal-400 hover:text-teal-800 dark:hover:text-teal-300 transition-colors duration-500 text-base">
-                        <span class="flex items-center justify-center space-x-1">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                                <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.772-1.549a1 1 0 011.06-.54l4.435.74A1 1 0 0118 16.847V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
-                            </svg>
-                            <span>WhatsApp Support</span>
-                        </span>
-                    </a>
-                </div>
-            </div>
-        </div>
+        </footer>
 
     </div>
 
-    <footer id="footer-text" class="text-center text-gray-500 dark:text-gray-400 text-xs mt-8 p-4 transition-colors duration-500">
-        website by uzair b2b services
-    </footer>
-
     <script>
-        // --- Theme Toggle Script ---
-        const themeToggle = document.getElementById('theme-toggle');
-        const htmlElement = document.documentElement; // The <html> tag
-        
-        // 1. Initial Theme Setup
-        // Check local storage. If no preference, default to 'light'.
-        const storedTheme = localStorage.getItem('theme');
-        
-        if (storedTheme === 'dark') {
-            htmlElement.classList.add('dark');
-        } else {
-            // Default or stored 'light'
-            htmlElement.classList.remove('dark');
-        }
+        // ─── Theme ───
+        const html = document.documentElement;
+        const stored = localStorage.getItem('theme') || 'dark';
+        html.setAttribute('data-theme', stored);
+        updateThemeIcons(stored);
 
-
-        // 2. Toggle Functionality
-        themeToggle.addEventListener('click', () => {
-            const isDark = htmlElement.classList.toggle('dark');
-            
-            // Save preference
-            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+        document.getElementById('theme-toggle').addEventListener('click', () => {
+            const current = html.getAttribute('data-theme');
+            const next = current === 'dark' ? 'light' : 'dark';
+            html.setAttribute('data-theme', next);
+            localStorage.setItem('theme', next);
+            updateThemeIcons(next);
         });
-        
-        // --- Video Fullscreen and Play Script (Unmodified) ---
-        function requestFullScreen(el) {
-            if (el.requestFullscreen) el.requestFullscreen();
-            else if (el.webkitRequestFullscreen) el.webkitRequestFullscreen();
-            else if (el.mozRequestFullScreen) el.mozRequestFullScreen();
-            else if (el.msRequestFullscreen) el.msRequestFullscreen();
+
+        function updateThemeIcons(theme) {
+            document.getElementById('sun-icon').style.display = theme === 'light' ? 'block' : 'none';
+            document.getElementById('moon-icon').style.display = theme === 'light' ? 'none' : 'block';
         }
 
-        const tag = document.createElement('script');
-        tag.src = "https://www.youtube.com/iframe_api";
-        document.body.appendChild(tag);
-
-        let player;
-        window.onYouTubeIframeAPIReady = function() {
-            player = new YT.Player('ytplayer', {
-                events: {
-                    'onReady': (event) => {
-                        document.getElementById('autoVideoSection').addEventListener('click', () => {
-                            event.target.playVideo();
-                        });
-                    }
-                }
-            });
-        };
-
-        // --- Translation Script (Unmodified functionality) ---
-        const translations = {
+        // ─── Translations ───
+        const T = {
             en: {
-                mainHeading: "Third & Second Year Notes Access",
-                paidInfo: "Exclusive Access",
-                costInfo: "₹150",
-                ebookContentInfo: "Ebook content is available in **both English and Hindi**.",
-                videoCaption: "Watch Video: Learn about the notes before purchasing.",
-                buyNotesText: "BUY NOTES NOW",
-                viewNotesText: "Access Your Purchased Notes",
-                button2ndYear: "2nd Year Notes",
-                button3rdYear: "3rd Year Notes",
-                downloadQrText: "Get your digital bookmark for quick access:",
-                downloadQrLink: "Download QR Bookmark",
-                contactText: "Issue with opening, verification, or purchase? Contact support:",
-                contactLink: "WhatsApp Support",
-                footerText: "website by uzair b2b services"
+                eyebrow: 'Academic Resources',
+                mainHeading: 'Notes & Ebook',
+                mainHeading2: 'Access Portal',
+                heroSub: 'Premium study material for Mass Communication students — curated, verified, and available in English & Hindi.',
+                stat1: 'Years Covered', stat2: 'One-Time Fee', stat3: 'Languages',
+                badgeExclusive: 'Exclusive Access',
+                pricingTitle: 'All-In Bundle',
+                pricingDesc: '2nd Year + 3rd Year + A.I. Supplement — everything you need in one payment.',
+                priceIncludes: 'Includes 2nd Year + 3rd Year + A.I. Notes',
+                feat1: '2nd Year complete notes', feat2: '3rd Year complete notes',
+                feat3: 'Artificial Intelligence supplement', feat4: 'English & Hindi both available', feat5: 'Lifetime notes access',
+                buyNotes: 'Purchase Notes →',
+                sectionAccess: 'Access Your Notes', accessTitle: 'Purchased? Dive In.',
+                btn2nd: '2nd Year Notes', btn2ndSub: 'Full syllabus',
+                btn3rd: '3rd Year Notes', btn3rdSub: 'Full syllabus',
+                sectionResources: 'Quick Resources',
+                qrTitle: 'QR Bookmark', qrSub: 'Quick access',
+                supportTitle: 'WhatsApp', supportSub: 'Support',
+                supportNote: "Having trouble opening notes, verifying your purchase, or completing payment? Reach out via WhatsApp and we'll resolve it promptly.",
+                footer: '© 2025 Education Simplified MGKVP',
+                footerAdmin: 'Admin', footerPolicy: 'Policy & Disclaimer',
             },
             hi: {
-                mainHeading: "तृतीय और द्वितीय वर्ष के नोट्स तक पहुंच",
-                paidInfo: "विशेष पहुंच",
-                costInfo: "₹150",
-                ebookContentInfo: "ईबुक सामग्री अंग्रेजी और हिंदी दोनों में उपलब्ध है।",
-                videoCaption: "वीडियो देखें: खरीदने से पहले नोट्स के बारे में जानें।",
-                buyNotesText: "नोट्स अभी खरीदें",
-                viewNotesText: "अपने खरीदे गए नोट्स तक पहुंचें",
-                button2ndYear: "द्वितीय वर्ष नोट्स",
-                button3rdYear: "तृतीय वर्ष नोट्स",
-                downloadQrText: "त्वरित पहुंच के लिए अपना डिजिटल बुकमार्क प्राप्त करें:",
-                downloadQrLink: "क्यूआर बुकमार्क डाउनलोड करें",
-                contactText: "खोलने, सत्यापन या खरीद में समस्या? समर्थन से संपर्क करें:",
-                contactLink: "व्हाट्सएप समर्थन",
-                footerText: "वेबसाइट बाय उजैर बी2बी सर्विसेज"
+                eyebrow: 'शैक्षणिक संसाधन',
+                mainHeading: 'नोट्स और ईबुक',
+                mainHeading2: 'एक्सेस पोर्टल',
+                heroSub: 'मास कम्युनिकेशन छात्रों के लिए प्रीमियम अध्ययन सामग्री — अंग्रेजी और हिंदी दोनों में उपलब्ध।',
+                stat1: 'वर्ष कवर', stat2: 'एकमुश्त शुल्क', stat3: 'भाषाएं',
+                badgeExclusive: 'विशेष पहुंच',
+                pricingTitle: 'ऑल-इन बंडल',
+                pricingDesc: '2रा वर्ष + 3रा वर्ष + A.I. — एक भुगतान में सब कुछ।',
+                priceIncludes: '2रे + 3रे वर्ष + A.I. नोट्स शामिल हैं',
+                feat1: 'द्वितीय वर्ष के पूर्ण नोट्स', feat2: 'तृतीय वर्ष के पूर्ण नोट्स',
+                feat3: 'आर्टिफिशियल इंटेलिजेंस सप्लीमेंट', feat4: 'अंग्रेजी और हिंदी दोनों में उपलब्ध', feat5: 'आजीवन ईबुक पहुंच',
+                buyNotes: 'नोट्स खरीदें →',
+                sectionAccess: 'अपने नोट्स एक्सेस करें', accessTitle: 'खरीदा? अभी शुरू करें।',
+                btn2nd: 'द्वितीय वर्ष नोट्स', btn2ndSub: 'पूरा पाठ्यक्रम',
+                btn3rd: 'तृतीय वर्ष नोट्स', btn3rdSub: 'पूरा पाठ्यक्रम',
+                sectionResources: 'त्वरित संसाधन',
+                qrTitle: 'QR बुकमार्क', qrSub: 'त्वरित पहुंच',
+                supportTitle: 'व्हाट्सएप', supportSub: 'सहायता',
+                supportNote: 'नोट्स खोलने, सत्यापन, या भुगतान में समस्या? व्हाट्सएप पर संपर्क करें।',
+                footer: '© 2025 Education Simplified MGKVP',
+                footerAdmin: 'एडमिन', footerPolicy: 'नीति और अस्वीकरण',
             }
         };
 
         function translatePage() {
             const lang = document.getElementById('language-selector').value;
-            const t = translations[lang];
-
-            if (t) {
-                document.getElementById('main-heading').innerText = t.mainHeading;
-                document.getElementById('paid-info').innerText = t.paidInfo;
-                // Temporarily remove currency symbol for simple translation
-                const cost = t.costInfo.replace('₹', ''); 
-                document.getElementById('cost-info').innerText = cost;
-
-                document.getElementById('ebook-content-info').innerText = t.ebookContentInfo;
-                
-                // Smartly update the video caption content
-                const videoCaptionElement = document.getElementById('video-caption');
-                const [title, content] = t.videoCaption.split(': ');
-                // Ensure dark mode text colors are included in the caption update
-                videoCaptionElement.innerHTML = `<span class="font-semibold text-gray-700 dark:text-gray-300 transition-colors duration-500">${title}:</span> ${content}`;
-
-                document.getElementById('buy-notes-text').innerText = t.buyNotesText;
-                document.getElementById('view-notes-text').innerText = t.viewNotesText;
-                document.getElementById('button-2nd-year').innerText = t.button2ndYear;
-                document.getElementById('button-3rd-year').innerText = t.button3rdYear;
-                document.getElementById('download-qr-text').innerText = t.downloadQrText;
-                document.getElementById('download-qr-link').innerText = t.downloadQrLink;
-                document.getElementById('contact-text').innerText = t.contactText;
-                document.getElementById('contact-link').innerText = t.contactLink;
-                document.getElementById('footer-text').innerText = t.footerText;
-                
-                // Add the currency symbol back after translation for both languages
-                document.getElementById('cost-info').innerText = '₹' + document.getElementById('cost-info').innerText;
-            }
+            const t = T[lang];
+            if (!t) return;
+            const set = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val; };
+            set('eyebrow-text', t.eyebrow);
+            set('main-heading', t.mainHeading);
+            set('main-heading-2', t.mainHeading2);
+            set('hero-sub', t.heroSub);
+            set('stat-1', t.stat1); set('stat-2', t.stat2); set('stat-3', t.stat3);
+            set('badge-exclusive', t.badgeExclusive);
+            set('pricing-title', t.pricingTitle);
+            set('pricing-desc', t.pricingDesc);
+            set('price-includes', t.priceIncludes);
+            set('feat-1', t.feat1); set('feat-2', t.feat2); set('feat-3', t.feat3);
+            set('feat-4', t.feat4); set('feat-5', t.feat5);
+            set('buy-notes-text', t.buyNotes);
+            set('section-access', t.sectionAccess);
+            set('access-title', t.accessTitle);
+            set('button-2nd-year', t.btn2nd); set('btn-2nd-sub', t.btn2ndSub);
+            set('button-3rd-year', t.btn3rd); set('btn-3rd-sub', t.btn3rdSub);
+            set('section-resources', t.sectionResources);
+            set('qr-title', t.qrTitle); set('qr-sub', t.qrSub);
+            set('support-title', t.supportTitle); set('support-sub', t.supportSub);
+            set('support-note', t.supportNote);
+            set('footer-text', t.footer);
+            set('footer-admin', t.footerAdmin); set('footer-policy', t.footerPolicy);
         }
 
-        // Translate the page on initial load
         document.addEventListener('DOMContentLoaded', translatePage);
     </script>
 </body>
